@@ -1,0 +1,5 @@
+# macOS.
+.DS_Store
+
+# Generated from run_before_apply or run_after_apply scripts.
+.precomputed_data.json

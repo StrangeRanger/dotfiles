@@ -1,0 +1,41 @@
+{{- $data := (include ".precomputed_data.json" | fromJson) -}}
+[user]
+	name = Hunter T.
+	email = strangeranger@hthompson.dev
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGiffRcM4tkooHgePhvOjhOZe5vgkFCcBfaKBlIqpe08
+[gpg]
+    format = ssh
+[gpg "ssh"]
+{{- if eq .chezmoi.os "linux" }}
+    program = "/opt/1Password/op-ssh-sign"
+{{- else if eq .chezmoi.os "darwin" }}
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- end }}
+[commit]
+    gpgsign = true
+[init]
+    defaultBranch = main
+
+{{ if $data.isDeltaInstalled -}}
+### Specific for git-delta
+### https://github.com/dandavison/delta
+[core]
+    pager = delta
+	editor = vim
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # Use n and N to move between diff sections.
+    light = false    # Set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal).
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+{{- end }}
+
+### Other Non-specific
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
