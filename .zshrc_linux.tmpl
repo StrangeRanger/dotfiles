@@ -72,10 +72,10 @@ source "$ZSH/oh-my-zsh.sh"
 
 ## General aliases.
 alias zls="eza"
+alias formatc="find . -name '*.cs' -type f -exec clang-format --style=file:~/Programs/Mine/Formatter\ Configs/CSharp_clang-format/_clang-format -i {} +"
 {{ if $data.isGUIEnvironment -}}
 hash xdg-open 2>/dev/null && alias open="xdg-open"
 {{- end }}
-
 
 ## Update based aliases.
 alias updateapt="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean"
