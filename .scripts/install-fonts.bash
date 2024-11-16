@@ -16,10 +16,10 @@ C_FONT_FILES=("MesloLGS NF Bold Italic.ttf"
 echo "Installing MesloLGS NF fonts..."
 
 if [[ "$C_OS" == "Darwin" ]]; then
-  # Location on macOS.
+  # Font folder location on macOS.
   FONT_DIR="$HOME/Library/Fonts"
 else
-  # Location on Linux.
+  # Font folder location on Linux.
   FONT_DIR="$HOME/.local/share/fonts"
 fi
 
