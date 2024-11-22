@@ -50,6 +50,10 @@ plugins=(colored-man-pages command-not-found)  # Server
 zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src"
 [[ -d $zsh_completion ]] && fpath+=${zsh_completion}
 
+# Rustup completions.
+# TODO: Make sure this works on macOS as it should.
+[[ -f ~/.zfunc/_rustup ]] && fpath+=~/.zfunc
+
 source "$ZSH/oh-my-zsh.sh"
 
 

@@ -44,6 +44,9 @@ plugins=(colored-man-pages copybuffer copypath copyfile bgnotify)
 zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src"
 [[ -d $zsh_completion ]] && fpath+=${zsh_completion}
 
+# Rustup completions.
+[[ -f ~/.zfunc/_rustup ]] && fpath+=~/.zfunc
+
 source "$ZSH/oh-my-zsh.sh"
 
 
