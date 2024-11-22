@@ -1,3 +1,6 @@
+####[ Oh-My-Zsh Configurations ]########################################################
+
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -39,20 +42,30 @@ HIST_STAMPS="yyyy-mm-dd"
 # MAYBE: Add `command-not-found` plugin.
 plugins=(colored-man-pages copybuffer copypath copyfile bgnotify)
 
-# Zsh "plugin" installed via git and the following command:
-# git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+
+####[ Pre `compinit` ]##################################################################
+#### These are configurations that have to be set before the `compinit` function is
+#### called, which is done when sourcing the 'oh-my-zsh.sh' file.
+
+
+## Zsh plugin for completions.
+## This plugin is installed via chezmoi, specified in the '.chezmoiexternal.toml' file.
 zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src"
 [[ -d $zsh_completion ]] && fpath+=${zsh_completion}
 
 # Rustup completions.
+# $ rustup completions zsh > ~/.zfunc/_rustup
 # TODO: Make sure this works on macOS as it should.
 [[ -f ~/.zfunc/_rustup ]] && fpath+=~/.zfunc
+
+
+####[ Source Oh-My-Zsh ]################################################################
+
 
 source "$ZSH/oh-my-zsh.sh"
 
 
-####[ Personal Configurations ]#########################################################
-####[[ Aliases ]]#######################################################################
+####[ Aliases ]#########################################################################
 
 
 ###
@@ -116,7 +129,7 @@ ugit     - ugit helps you undo git commands without much effort.
 \""
 
 
-####[[ Environmental Variables ]]#######################################################
+####[ Environmental Variables ]#########################################################
 
 
 # 1Password auth socket.
@@ -147,25 +160,25 @@ fi
 export NVM_DIR="$HOME/.nvm"
 
 
-####[[ Sourced Files ]]#################################################################
+####[ Sourced Files ]###################################################################
 
 
 ## Load NVM.
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-## Zsh "plugin" installed via git and the following command:
-## git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+## Zsh plugin for syntax highlighting.
+## This plugin is installed via chezmoi, specified in the '.chezmoiexternal.toml' file.
 zsh_syntax_highlighting="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 [[ -f $zsh_syntax_highlighting ]] && source "$zsh_syntax_highlighting"
 
-## Zsh "plugin" installed via git and the following command:
-## git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+## Zsh plugin for autosuggestions.
+## This plugin is installed via chezmoi, specified in the '.chezmoiexternal.toml' file.
 zsh_autosuggestions="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 [[ -f $zsh_autosuggestions ]] && source "$zsh_autosuggestions"
 
-## Zsh "plugin" installed via git and the following command:
-## git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+## Zsh plugin for fzf-tab.
+## This plugin is installed via chezmoi, specified in the '.chezmoiexternal.toml' file.
 fzf_tab="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh"
 [[ -f $fzf_tab ]] && hash fzf 2>/dev/null && source "$fzf_tab"
 
@@ -173,7 +186,7 @@ fzf_tab="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh"
 source "$HOME/.config/op/plugins.sh"
 
 
-####[[ Zsh Style Configurations ]]######################################################
+####[ Zsh Style Configurations ]########################################################
 
 
 # Disable sort when completing `git checkout`.
@@ -190,7 +203,7 @@ hash eza 2>/dev/null \
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
 
-####[[ End of File Configurations ]]####################################################
+####[ End of File Configurations ]######################################################
 #### These are configurations that are specified to be placed at the end of the file, by
 #### the developer/documentation.
 
@@ -201,6 +214,6 @@ hash starship 2>/dev/null \
     && eval "$(starship init zsh)"
 
 
-####[[ Others ]]########################################################################
+####[ Others ]##########################################################################
 #### These are generally configurations set up by setup scripts or other programs.
 
