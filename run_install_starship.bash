@@ -23,9 +23,6 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 
 echo "${C_INFO}Installing cross-shell prompt, Starship..."
-curl -sS https://starship.rs/install.sh | sh || {
-    echo "${C_ERROR}Failed to install Starship"
-    exit 1
-}
-
-echo "${C_SUCCESS}Starship installed successfully"
+curl -sS https://starship.rs/install.sh | sh \
+    && echo "${C_SUCCESS}Starship installed successfully" \
+    || echo "${C_ERROR}Failed to install Starship"
