@@ -8,7 +8,8 @@ packages:
       - "tree"
     pacman:
       - "neovim"
-      - trash-cli
+      - "trash-cli"
+      - "git-delta"
     apt:
       - "apt-listchanges"
       - "deborphan"
@@ -16,8 +17,7 @@ packages:
     homebrew:
       formulas:
         - "git"
-        - "curl"
-        - "wget"
         - "zsh"
         - "neovim"
         - "trash-cli"
+        - "git-delta"
