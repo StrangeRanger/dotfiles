@@ -44,18 +44,3 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-{{ if and (eq .chezmoi.os "linux")
-    (or (eq .chezmoi.osRelease.id "debian")
-        (eq .chezmoi.osRelease.id "ubuntu")
-        (eq .chezmoi.osRelease.idLike "debian")
-        (eq .chezmoi.osRelease.idLike "ubuntu")
-    )
-}}
-["/opt/nvim"]
-    type = "archive"
-    url = "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-{{ end }}
-
