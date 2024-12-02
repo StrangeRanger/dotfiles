@@ -1,4 +1,8 @@
 {{- $data := (include ".precomputed_data.json" | fromJson) -}}
+###
+### General Git Configuration
+###
+
 [user]
 	name = Hunter T.
 	email = strangeranger@hthompson.dev
@@ -17,8 +21,10 @@
     defaultBranch = main
 
 {{ if $data.isDeltaInstalled -}}
-### Specific for git-delta
-### https://github.com/dandavison/delta
+###
+### Git Delta Configurations
+###
+
 [core]
     pager = delta
 	editor = nvim
@@ -33,7 +39,10 @@
     colorMoved = default
 {{- end }}
 
-### Other Non-specific
+###
+### Other Non-specific Configurations
+###
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
