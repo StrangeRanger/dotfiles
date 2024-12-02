@@ -7,11 +7,13 @@
 
 
 ## Used to colorize output.
+C_GREEN="$(printf '\033[0;32m')"
 C_BLUE="$(printf '\033[0;34m')"
 C_NC="$(printf '\033[0m')"
 readonly C_BLUE C_NC
 
 ## Short-hand colorized messages.
+readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
 readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 
@@ -51,4 +53,6 @@ cat <<EOF > "$HOME/.local/share/chezmoi/.precomputed_data.json"
     "isGUIEnvironment": $IS_GUI_ENVIRONMENT
 }
 EOF
+
+echo "${C_SUCCESS}Precompute script completed"
 
