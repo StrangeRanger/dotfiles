@@ -83,10 +83,6 @@ alias formatc="find . -name '*.cs' -type f -exec clang-format --style='file:$HOM
 alias rm="trash"  # Used to prevent accidental and permanent deletion of files.
 alias rrm="/usr/bin/rm"  # Stands for 'real rm'.
 alias update-grub-config="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias start-bluetooth="sudo systemctl start bluetooth.service"
-alias stop-bluetooth="sudo systemctl stop bluetooth.service"
-alias start-vmware-networking="sudo systemctl start vmware-networks.service"
-alias stop-vmware-networking="sudo systemctl stop vmware-networks.service"
 {{ if $data.isGUIEnvironment -}}
 hash xdg-open 2>/dev/null && alias open="xdg-open"
 {{- end }}
@@ -94,6 +90,12 @@ hash xdg-open 2>/dev/null && alias open="xdg-open"
 ## Update based aliases.
 alias updateapt="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean"
 alias updatepacman="sudo pacman -Syu && yay && yay -Yc"
+
+## Systemd aliases.
+alias start-bluetooth="sudo systemctl start bluetooth.service"
+alias stop-bluetooth="sudo systemctl stop bluetooth.service"
+alias start-vmware-networking="sudo systemctl start vmware-networks.service"
+alias stop-vmware-networking="sudo systemctl stop vmware-networks.service"
 
 ###
 ### [ Group 2 ]
