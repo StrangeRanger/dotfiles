@@ -1,0 +1,22 @@
+packages:
+  linux:
+    general:
+      - "git"
+      - "curl"
+      - "wget"
+      - "zsh"
+      - "trash-cli"
+      - "tree"
+    pacman:
+      - "neovim"
+    apt:
+      - "apt-listchanges"
+      - "deborphan"
+  macos:
+    homebrew:
+      formulas:
+        - "git"
+        - "curl"
+        - "wget"
+        - "zsh"
+        - "neovim"

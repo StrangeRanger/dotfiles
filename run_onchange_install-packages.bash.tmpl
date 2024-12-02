@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+# Install packages based on the detected operating system.
+#
+########################################################################################
+####[ Global Variables ]################################################################
+
+
+## Used to colorize output.
+C_GREEN="$(printf '\033[0;32m')"
+C_BLUE="$(printf '\033[0;34m')"
+C_RED="$(printf '\033[1;31m')"
+C_NC="$(printf '\033[0m')"
+readonly C_GREEN C_BLUE C_RED C_NC
+
+## Short-hand colorized messages.
+readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
+readonly C_ERROR="${C_RED}ERROR:${C_NC} "
+readonly C_INFO="${C_BLUE}==>${C_NC} "
+
+
+####[ Main ]############################################################################
+
+
+case "{{ .chezmoi.os }}" in
+  linux)
+    echo "${C_INFO}Installing packages for Linux..."
+
+    # Install general packages
+    echo "${C_INFO}Installing general packages..."
+    if hash pacman &> /dev/null; then
+        sudo pacman -Syu --noconfirm
+        {{- range .packages.linux.general }}
+        echo "${C_INFO}Installing {{ . }}..."
+        sudo pacman -S --noconfirm --needed "{{ . }}"
+        {{- end }}
+    elif hash apt &> /dev/null; then
+        sudo apt update
+        {{- range .packages.linux.general }}
+        echo "${C_INFO}Installing {{ . }}..."
+        sudo apt install -y "{{ . }}"
+        {{- end }}
+    fi
+
+    # Install Pacman-specific packages
+    if hash pacman &> /dev/null; then
+        echo "${C_INFO}Installing pacman-specific packages..."
+        {{- range .packages.linux.pacman }}
+        echo "${C_INFO}Installing {{ . }}..."
+        sudo pacman -S --noconfirm --needed "{{ . }}"
+        {{- end }}
+    fi
+
+    # Install APT-specific packages
+    if hash apt &> /dev/null; then
+        echo "${C_INFO}Installing apt-specific packages..."
+        {{- range .packages.linux.apt }}
+        echo "${C_INFO}Installing {{ . }}..."
+        sudo apt install -y "{{ . }}"
+        {{- end }}
+    fi
+    ;;
+
+  darwin)
+    echo "${C_INFO}Installing packages for macOS..."
+
+    # Install Homebrew packages
+    echo "${C_INFO}Installing Homebrew formulas..."
+    {{- range .packages.macos.homebrew.formulas }}
+    echo "${C_INFO}Installing {{ . }}..."
+    brew install "{{ . }}"
+    {{- end }}
+    ;;
+
+  *)
+    echo "${C_ERROR}Unsupported operating system: {{ .chezmoi.os }}"
+    exit 1
+    ;;
+esac
+
+echo "${C_GREEN}Package installation complete."
+
