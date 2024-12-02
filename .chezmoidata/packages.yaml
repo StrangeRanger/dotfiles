@@ -5,10 +5,10 @@ packages:
       - "curl"
       - "wget"
       - "zsh"
-      - "trash-cli"
       - "tree"
     pacman:
       - "neovim"
+      - trash-cli
     apt:
       - "apt-listchanges"
       - "deborphan"
@@ -20,3 +20,4 @@ packages:
         - "wget"
         - "zsh"
         - "neovim"
+        - "trash-cli"
