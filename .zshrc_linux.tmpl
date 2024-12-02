@@ -80,8 +80,6 @@ source "$ZSH/oh-my-zsh.sh"
 ## General aliases.
 alias zls="eza"
 alias formatc="find . -name '*.cs' -type f -exec clang-format --style='file:$HOME/Programs/Mine/Formatter Configs/CSharp_clang-format/_clang-format' -i {} +"
-alias rm="trash"  # Used to prevent accidental and permanent deletion of files.
-alias rrm="/usr/bin/rm"  # Stands for 'real rm'.
 alias update-grub-config="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 {{ if $data.isGUIEnvironment -}}
 hash xdg-open 2>/dev/null && alias open="xdg-open"
