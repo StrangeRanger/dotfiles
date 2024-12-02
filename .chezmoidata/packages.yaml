@@ -6,6 +6,7 @@ packages:
       - "wget"
       - "zsh"
       - "tree"
+      - "gcc"
     pacman:
       - "neovim"
       - "trash-cli"
