@@ -34,7 +34,7 @@ if [[ {{ .chezmoi.os }} == "linux" ]]; then
     else
         echo "${C_ERROR}'${USER}' does not have permissions to install packages"
         echo "${C_INFO}Skipping package installation"
-        exit 1
+        exit
     fi
 fi
 
