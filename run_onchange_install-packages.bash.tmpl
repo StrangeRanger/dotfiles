@@ -93,7 +93,6 @@ case "{{ .chezmoi.os }}" in
         if dpkg -l "{{ . }}" &> /dev/null; then
             echo "${C_NOTE}'{{ . }}' is already installed"
             echo "${C_INFO}Skipping..."
-            continue
         else
             echo "${C_INFO}Installing '{{ . }}'..."
             sudo apt install -y "{{ . }}"
