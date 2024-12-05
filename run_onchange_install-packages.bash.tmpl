@@ -47,9 +47,10 @@ case "{{ .chezmoi.os }}" in
     echo "${C_INFO}Installing packages for Linux..."
 
     # Install general packages
-    echo "${C_INFO}Installing general packages..."
     if hash pacman &> /dev/null; then
-        sudo pacman -Syu --noconfirm
+        echo "${C_INFO}Updating package lists..."
+        sudo pacman -Sy --noconfirm
+        echo "${C_INFO}Installing general packages..."
         {{- range .packages.linux.general }}
         if pacman -Q "{{ . }}" &> /dev/null; then
             echo "${C_NOTE}'{{ . }}' is already installed"
@@ -60,7 +61,9 @@ case "{{ .chezmoi.os }}" in
         fi
         {{- end }}
     elif hash apt &> /dev/null; then
+        echo "${C_INFO}Updating package lists..."
         sudo apt update
+        echo "${C_INFO}Installing general packages..."
         {{- range .packages.linux.general }}
         if dpkg -l "{{ . }}" &> /dev/null; then
             echo "${C_NOTE}'{{ . }}' is already installed"
