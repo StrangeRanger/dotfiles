@@ -1,6 +1,10 @@
 -- This file is loaded after and by 'init.vim', and contains additional configurations
 -- that require the use of lua.
 
+
+----[ nvim-treesitter Configurations ]--------------------------------------------------
+
+
 -- TODO: Add more configurations here.
 require('nvim-treesitter.configs').setup {
    -- A list of parser names, or "all" (the listed parsers MUST always be installed).
@@ -50,3 +54,11 @@ require('nvim-treesitter.configs').setup {
       additional_vim_regex_highlighting = false,
    },
 }
+
+
+----[ mini.nvim Configurations ]--------------------------------------------------------
+
+
+-- Module: mini.move
+require('mini.move').setup()
+
