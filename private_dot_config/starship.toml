@@ -199,6 +199,7 @@ disabled = false
 
 [rust]
 symbol = "󱘗 "
+style="bold fg:#bf5700"
 disabled = false
 
 [scala]
@@ -216,3 +217,4 @@ disabled = false
 [gradle]
 symbol = " "
 disabled = false
+
