@@ -10,7 +10,7 @@ C_GREEN="$(printf '\033[0;32m')"
 C_BLUE="$(printf '\033[0;34m')"
 C_RED="$(printf '\033[1;31m')"
 C_NC="$(printf '\033[0m')"
-readonly C_RED C_NC
+readonly C_GREEN C_BLUE C_RED C_NC
 
 readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
 readonly C_ERROR="${C_RED}ERROR:${C_NC} "
