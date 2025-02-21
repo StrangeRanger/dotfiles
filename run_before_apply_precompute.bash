@@ -24,7 +24,7 @@ echo "${C_INFO}Running precompute script..."
 
 echo "${C_INFO}    Checking if git-delta is installed..."
 # Check if git-delta is installed.
-if hash delta 2>/dev/null; then
+if command -v delta >/dev/null; then
     IS_DELTA_INSTALLED=true
 else
     IS_DELTA_INSTALLED=false
