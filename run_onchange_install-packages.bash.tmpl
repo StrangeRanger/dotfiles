@@ -54,8 +54,6 @@ install_from_cache() {
 
 case "{{ .chezmoi.os }}" in
     linux)
-        echo "${C_INFO}Installing packages for Linux..."
-
         if command -v pacman >/dev/null; then
             echo "${C_INFO}Updating package lists..."
             sudo pacman -Syu --noconfirm
@@ -92,8 +90,6 @@ case "{{ .chezmoi.os }}" in
         ;;
 
     darwin)
-        echo "${C_INFO}Installing packages for macOS..."
-
         echo "${C_INFO}Retrieving installed Homebrew formulas..."
         installed_packages="$(brew list --formula)"
 
