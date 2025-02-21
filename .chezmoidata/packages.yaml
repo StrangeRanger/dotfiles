@@ -14,6 +14,7 @@ packages:
     apt:
       - "apt-listchanges"
       - "deborphan"
+      - "command-not-found"
   macos:
     homebrew:
       formulas:
@@ -22,3 +23,4 @@ packages:
         - "neovim"
         - "trash-cli"
         - "git-delta"
+        # - "command-not-found"  # https://github.com/Homebrew/homebrew-command-not-found
