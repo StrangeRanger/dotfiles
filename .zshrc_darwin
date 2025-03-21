@@ -61,7 +61,77 @@ zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completio
 ####[ Resource File - Functions ]#######################################################
 
 
+####
+# Homebrew Update and Cleanup
+homebrew_update_and_cleanup() {
+    echo "[INFO] Executing: $ brew update"
+    brew update
+    echo "[INFO] Executing: $ brew upgrade"
+    brew upgrade
+    echo "[INFO] Executing: $ brew autoremove"
+    brew autoremove
+    echo "[INFO] Executing: $ brew cleanup"
+    brew cleanup
+    echo "[INFO] Executing: $ brew doctor"
+    brew doctor
+}
 
+###
+### [ Alias Related Functions ]
+###
+
+####
+# List of Aliases
+alias_lt() {
+    cat <<EOF
+####[ Installed Commands ]##############################################################
+
+bandwhich  - Terminal bandwidth utilization tool.
+bat        - A cat(1) clone with wings.
+cheat      - Allows you to create and view interactive cheatsheets on the command-line.
+codespell  - Check code for common misspellings.
+duf        - Disk Usage/Free Utility - a better 'df' alternative.
+fzf        - A command-line fuzzy finder.
+ncdu       - ncdu (NCurses Disk Usage) is a curses-based version of the well-known 'du'.
+pstree     - List processes as a tree.
+tmux       - Terminal multiplexer.
+
+###
+### [ Grouped Commands ]
+###
+
+lt_conversion - List of programs used for converting the formats of videos, images, etc.
+lt_git        - List of programs used for git related commands.
+
+
+####[ Keyboard Combinations ]###########################################################
+
+Ctrl + O - Allows you to copy what you are currently typing, via 'Ctrl' + 'O'.
+EOF
+}
+
+####
+# Image and Video Formatters
+alias_lt_conversion() {
+    cat <<EOF
+####[ Image and Video Formatters ]######################################################
+
+ffmpeg - FFmpeg is a collection of libraries and tools to process multimedia content.
+magick - Convert between image formats as well as resize an image, blur, crop,
+         despeckle, dither, draw on, flip, join, re-sample, and much more.
+EOF
+}
+
+####
+# Git Related Commands
+alias_lt_git() {
+    cat <<EOF
+####[ Git Related Commands ]############################################################
+
+lazygit  - Simple terminal UI for git commands.
+git open - Opens the GitHub page for a repo/branch in your browser.
+EOF
+}
 
 
 ####[ Source Oh-My-Zsh ]################################################################
@@ -90,7 +160,7 @@ alias deletelocalbranches="git branch | grep -v 'main' | xargs git branch -D"
 alias RestartCoreAudioProcess="sudo killall coreaudiod"
 
 ## Update based aliases.
-alias updatebrew="brew update && brew upgrade && brew autoremove && brew cleanup && brew doctor"
+alias updatebrew="homebrew_update_and_cleanup"
 
 ###
 ### [ Group 2 ]
@@ -101,42 +171,9 @@ alias updatebrew="brew update && brew upgrade && brew autoremove && brew cleanup
 ### a list of these commands, without having to commit them to memory.
 ###
 
-alias lt="echo -e \"
-####[ Installed Commands ]##############################################################
-
-bandwhich  - Terminal bandwidth utilization tool.
-bat        - A cat(1) clone with wings.
-cheat      - Allows you to create and view interactive cheatsheets on the command-line.
-codespell  - Check code for common misspellings.
-duf        - Disk Usage/Free Utility - a better 'df' alternative.
-fzf        - A command-line fuzzy finder.
-ncdu       - ncdu (NCurses Disk Usage) is a curses-based version of the well-known 'du'.
-pstree     - List processes as a tree.
-tmux       - Terminal multiplexer.
-
-####[[ Grouped Commands ]]##############################################################
-
-lt_conversion - List of programs used for converting the formats of videos, images, etc.
-lt_git        - List of programs used for git related commands.
-
-
-####[ Keyboard Combinations ]###########################################################
-
-Ctrl + O - Allows you to copy what you are currently typing, via 'Ctrl' + 'O'.
-\""
-alias lt_conversion="echo -e \"
-####[ Image and Video Formatters ]######################################################
-
-ffmpeg - FFmpeg is a collection of libraries and tools to process multimedia content.
-magick - Convert between image formats as well as resize an image, blur, crop,
-         despeckle, dither, draw on, flip, join, re-sample, and much more.
-\""
-alias lt_git="echo -e \"
-####[ Git Related Commands ]############################################################
-
-lazygit  - Simple terminal UI for git commands.
-git open - Opens the GitHub page for a repo/branch in your browser.
-\""
+alias lt="alias_lt"
+alias lt_conversion="alias_lt_conversion"
+alias lt_git="alias_lt_git"
 
 
 ####[ Environmental Variables ]#########################################################
