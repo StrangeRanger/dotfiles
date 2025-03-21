@@ -62,7 +62,7 @@ zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completio
 
 
 ####
-# Homebrew Update and Cleanup
+# Perform the update, upgrade, and cleanup operations for Homebrew.
 homebrew_update_and_cleanup() {
     echo "[INFO] Executing: $ brew update"
     brew update
