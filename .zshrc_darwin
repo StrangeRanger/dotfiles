@@ -23,7 +23,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
-# Disable audo updates for ohmyzsh. This is taken care of by chezmoi.
+# Disable auto updates for ohmyzsh. This is taken care of by chezmoi.
 DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line if you want to change the command execution time
@@ -148,19 +148,25 @@ source "$ZSH/oh-my-zsh.sh"
 ###
 
 ## General aliases.
-alias ic="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs"
-alias edisk="cd /Volumes && ll"
 alias zls="eza"
-alias rmdsstore="find . -name '*.DS_Store' -type f -delete"
 alias code="open -a 'Visual Studio Code.app' ."
-alias formatc="find . -name '*.cs' -type f -exec clang-format --style='file:$HOME/Programs/Mine/Formatter Configs/CSharp_clang-format/_clang-format' -i {} +"
-alias deletelocalbranches="git branch | grep -v 'main' | xargs git branch -D"
+
+## Directory related aliases.
+alias MoveToiCloud="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs"
+alias MoveToVolumes="cd /Volumes && ll"
+
+## File action related aliases.
+alias RemoveDSStore="find . -name '*.DS_Store' -type f -delete"
+alias FormatCSharpCode="find . -name '*.cs' -type f -exec clang-format --style='file:$HOME/Programs/Mine/Formatter Configs/CSharp_clang-format/_clang-format' -i {} +"
+alias DeleteLocalGitBranches="git branch | grep -v 'main' | xargs git branch -D"
+
+## Audio related aliases.
 # Restarting the Core Audio Process can often resolve issues such as no sound, crackling
-# noice, or intermittent audio problems.
+# noise, or intermittent audio problems.
 alias RestartCoreAudioProcess="sudo killall coreaudiod"
 
 ## Update based aliases.
-alias updatebrew="homebrew_update_and_cleanup"
+alias UpdateBrew="homebrew_update_and_cleanup"
 
 ###
 ### [ Group 2 ]
@@ -256,5 +262,3 @@ hash starship 2>/dev/null \
 
 ####[ Others ]##########################################################################
 #### These are generally configurations set up by setup scripts or other programs.
-
-

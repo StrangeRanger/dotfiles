@@ -136,24 +136,28 @@ source "$ZSH/oh-my-zsh.sh"
 
 ## General aliases.
 alias zls="eza"
-alias formatc="find . -name '*.cs' -type f -exec clang-format --style='file:$HOME/Programs/Mine/Formatter Configs/CSharp_clang-format/_clang-format' -i {} +"
-alias update-grub-config="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias deletelocalbranches="git branch | grep -v 'main' | xargs git branch -D"
 {{ if $data.isGUIEnvironment -}}
 hash xdg-open 2>/dev/null && alias open="xdg-open"
 {{- end }}
 
+## Configuration related aliases.
+alias UpdateGrubConfigs="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+
+## File action related aliases.
+alias FormatCSharpCode="find . -name '*.cs' -type f -exec clang-format --style='file:$HOME/Programs/Mine/Formatter Configs/CSharp_clang-format/_clang-format' -i {} +"
+alias DeleteLocalGitBranches="git branch | grep -v 'main' | xargs git branch -D"
+
 ## Update based aliases.
-alias updateapt="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean"
-alias updatepacman="sudo pacman -Syu && yay && yay -Yc && sudo pkgfile -u && update-grub-config"
+alias UpdateApt="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean"
+alias UpdatePacman="sudo pacman -Syu && yay && yay -Yc && sudo pkgfile -u && UpdateGrubConfigs"
 
 ## Systemd aliases.
-alias start-bluetooth="sudo systemctl start bluetooth.service"
-alias stop-bluetooth="sudo systemctl stop bluetooth.service"
-alias start-firewalld="sudo systemctl start firewalld.service"
-alias stop-firewalld="sudo systemctl stop firewalld.service"
-alias start-docker="sudo systemctl start docker.service containerd.service"
-alias stop-docker="sudo systemctl stop docker.socket docker.service containerd.service"
+alias StartBluetooth="sudo systemctl start bluetooth.service"
+alias StopBluetooth="sudo systemctl stop bluetooth.service"
+alias StartFirewalld="sudo systemctl start firewalld.service"
+alias StopFirewalld="sudo systemctl stop firewalld.service"
+alias StartDocker="sudo systemctl start docker.service containerd.service"
+alias StopDocker="sudo systemctl stop docker.socket docker.service containerd.service"
 
 ###
 ### [ Group 2 ]
@@ -259,4 +263,3 @@ hash starship 2>/dev/null \
 
 ####[ Others ]##########################################################################
 #### These are generally configurations set up by setup scripts or other programs.
-
