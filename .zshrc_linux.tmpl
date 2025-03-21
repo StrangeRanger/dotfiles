@@ -68,6 +68,38 @@ zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completio
 
 
 ####
+# Perform the update, upgrade, and cleanup of packages managed by the Apt Package
+# Manager.
+apt_update_and_cleanup() {
+    echo "[INFO] Executing: $ sudo apt update"
+    sudo apt update
+    echo "[INFO] Executing: $ sudo apt upgrade -y"
+    sudo apt upgrade -y
+    echo "[INFO] Executing: $ sudo apt autoremove -y"
+    sudo apt autoremove -y
+    echo "[INFO] Executing: $ sudo apt autoclean"
+    sudo apt autoclean
+}
+
+####
+# Perform the update, upgrade, and cleanup of packages managed by Pacman. Additionally,
+# GRUB configurations are updated to include snapshot changes.
+pacman_update_and_cleanup() {
+    echo "[INFO] Executing: $ sudo pacman -Syu"
+    sudo pacman -Syu
+    echo "[INFO] Executing: $ yay && yay -Yc"
+    yay && yay -Yc
+    echo "[INFO] Executing: $ sudo pkgfile -u"
+    sudo pkgfile -u
+    echo "[INFO] Executing: $ UpdateGrubConfigs"
+    UpdateGrubConfigs
+}
+
+###
+### [ Alias Related Functions ]
+###
+
+####
 # List of Aliases
 alias_lt() {
     cat <<EOF
@@ -148,8 +180,8 @@ alias FormatCSharpCode="find . -name '*.cs' -type f -exec clang-format --style='
 alias DeleteLocalGitBranches="git branch | grep -v 'main' | xargs git branch -D"
 
 ## Update based aliases.
-alias UpdateApt="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean"
-alias UpdatePacman="sudo pacman -Syu && yay && yay -Yc && sudo pkgfile -u && UpdateGrubConfigs"
+alias UpdateApt="apt_update_and_cleanup"
+alias UpdatePacman="pacman_update_and_cleanup"
 
 ## Systemd aliases.
 alias StartBluetooth="sudo systemctl start bluetooth.service"
