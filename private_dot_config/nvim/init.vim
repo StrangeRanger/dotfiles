@@ -79,7 +79,7 @@ augroup CsprojSettings
 augroup END
 augroup SlnSettings
   autocmd!
-  autocmd BufRead,BufNewFile *.sln setlocal tabstop=4 shiftwidth=4 expandtab
+  autocmd BufRead,BufNewFile *.sln setlocal tabstop=4 shiftwidth=4
 augroup END
 
 
