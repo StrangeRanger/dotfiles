@@ -2,6 +2,8 @@
 
 
 {{ $data := (include ".precomputed_data.json" | fromJson) -}}
+{{ $isGUI := $data.isGUIEnvironment -}}
+{{ $hasTailscale := $data.isTailscaleInstalled -}}
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -40,13 +42,9 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-{{ if $data.isGUIEnvironment -}}
-plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found{{ if $data.isTailscaleInstalled }} tailscale{{ end }})  # Desktop
-#plugins=(colored-man-pages command-not-found{{ if $data.isTailscaleInstalled }} tailscale{{ end }})  # Server
-{{- else -}}
-#plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found{{ if $data.isTailscaleInstalled }} tailscale{{ end }})  # Desktop
-plugins=(colored-man-pages command-not-found{{ if $data.isTailscaleInstalled }} tailscale{{ end }})  # Server
-{{- end }}
+{{ $basePlugins := "colored-man-pages command-not-found" -}}
+{{ $guiPlugins := "copybuffer copypath copyfile bgnotify" -}}
+plugins=({{ $basePlugins }}{{ if $isGUI }} {{ $guiPlugins }}{{ end }}{{ if $hasTailscale }} tailscale{{ end }})
 
 
 ####[ Pre `compinit` ]######################################################################
@@ -171,7 +169,7 @@ source "$ZSH/oh-my-zsh.sh"
 
 ## General aliases.
 alias zls="eza"
-{{ if $data.isGUIEnvironment -}}
+{{ if $isGUI -}}
 hash xdg-open 2>/dev/null && alias open="xdg-open"
 {{- end }}
 
