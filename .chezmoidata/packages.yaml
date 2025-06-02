@@ -23,4 +23,4 @@ packages:
         - "neovim"
         - "trash-cli"
         - "git-delta"
-        # - "command-not-found"  # https://github.com/Homebrew/homebrew-command-not-found
+        # - "command-not-found"  # TODO: https://github.com/Homebrew/homebrew-command-not-found
