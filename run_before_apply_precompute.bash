@@ -20,16 +20,30 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 echo "${C_INFO}Running precompute script..."
 
-echo "${C_INFO}  Checking if git-delta is installed..."
-# Check if git-delta is installed.
+###
+### [ Tool Presence Checks ]
+###
+
+echo "${C_INFO}  Checking if 'git-delta' is installed..."
 if command -v delta >/dev/null; then
     C_IS_DELTA_INSTALLED=true
 else
     C_IS_DELTA_INSTALLED=false
 fi
 
+echo "${C_INFO}  Checking if 'tailscale' is installed..."
+if command -v tailscale >/dev/null; then
+    C_IS_TAILSCALE_INSTALLED=true
+else
+    C_IS_TAILSCALE_INSTALLED=false
+fi
+
+###
+### [ GUI/Headless Environment Check ]
+###
+
+## Linux-only heuristics.
 echo "${C_INFO}  Checking if GUI environment is present..."
-# Check for GUI environment. (Specific to Linux)
 if pidof gdm >/dev/null \
     || pidof lightdm >/dev/null \
     || pidof sddm >/dev/null \
@@ -44,10 +58,15 @@ else
     C_IS_GUI_ENVIRONMENT=false
 fi
 
+###
+### [ Write Precomputed Data to File ]
+###
+
 echo "${C_INFO}  Writing precomputed data to file..."
 cat <<EOF > "$HOME/.local/share/chezmoi/.precomputed_data.json"
 {
     "isDeltaInstalled": $C_IS_DELTA_INSTALLED,
+    "isTailscaleInstalled": $C_IS_TAILSCALE_INSTALLED,
     "isGUIEnvironment": $C_IS_GUI_ENVIRONMENT
 }
 EOF
