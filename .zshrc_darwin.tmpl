@@ -2,7 +2,6 @@
 
 
 {{ $data := (include ".precomputed_data.json" | fromJson) -}}
-{{ $hasTailscale := $data.isTailscaleInstalled -}}
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -42,7 +41,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # MAYBE: Add `command-not-found` plugin.
-plugins=(colored-man-pages copybuffer copypath copyfile bgnotify{{ if $hasTailscale }} tailscale{{ end }})
+plugins=(colored-man-pages copybuffer copypath copyfile bgnotify{{ if $data.isTailscaleInstalled }} tailscale{{ end }})
 
 
 ####[ Pre `compinit` ]######################################################################
