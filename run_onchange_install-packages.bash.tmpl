@@ -27,10 +27,10 @@ installed_packages=""
 ####[ Functions ]###########################################################################
 
 
-# install_from_cache:
-#   Checks the global installed_packages cache for the package.
-#   If not found, it runs the provided install command.
-#   Upon a successful installation, it appends the package to the cache.
+####
+# Checks the global installed_packages cache for the package. If not found, it runs the
+# provided install command. Upon a successful installation, it appends the package to the
+# cache.
 install_from_cache() {
     local pkg="$1"
     local install_cmd="$2"
@@ -91,8 +91,7 @@ case "{{ .chezmoi.os }}" in
 
     darwin)
         echo "${C_INFO}Retrieving installed Homebrew formulas..."
-        # TODO: Add Homebrew casks to the cache.
-        installed_packages="$(brew list --formula)"
+        installed_packages="$( { brew list --formula; brew list --cask; } | sort -u )"
 
         echo "${C_INFO}Installing Homebrew formulas..."
         {{- range .packages.macos.homebrew.formulas }}
