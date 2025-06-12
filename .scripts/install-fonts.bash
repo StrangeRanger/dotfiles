@@ -34,6 +34,7 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 if [[ "$C_OS" == "Darwin" ]]; then
     echo "${C_INFO}Skipping font installation on macOS..."
+    exit 0
 else
   # Font folder location on Linux.
   C_FONT_DIR="$HOME/.local/share/fonts"
