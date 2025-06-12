@@ -31,15 +31,14 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 ####[ Main ]############################################################################
 
 
-echo "${C_INFO}Installing MesloLGS NF fonts..."
-
 if [[ "$C_OS" == "Darwin" ]]; then
-  # Font folder location on macOS.
-  C_FONT_DIR="$HOME/Library/Fonts"
+    echo "${C_INFO}Skipping font installation on macOS..."
 else
   # Font folder location on Linux.
   C_FONT_DIR="$HOME/.local/share/fonts"
 fi
+
+echo "${C_INFO}Installing Meslo Nerd Fonts to '$C_FONT_DIR'"
 
 ## Create the font directory if it does not exist.
 [[ ! -d $C_FONT_DIR ]] && mkdir -p "$C_FONT_DIR"
