@@ -97,6 +97,11 @@ case "{{ .chezmoi.os }}" in
         {{- range .packages.macos.homebrew.formulas }}
         install_from_cache "{{ . }}" "brew install '{{ . }}'"
         {{- end }}
+
+        echo "${C_INFO}Installing Homebrew casks..."
+        {{- range .packages.macos.homebrew.casks }}
+        install_from_cache "{{ . }}" "brew install --cask '{{ . }}'"
+        {{- end }}
         ;;
 
     *)
