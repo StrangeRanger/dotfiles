@@ -1,2 +1,2 @@
 - Move all colorization variables to a separate file to be sourced by 'run_before_apply_precompute.bash'.
-- Create scripts within '.scripts/' to setup vim-plug, and other additional configurations that I don't [currently] want to be automated.
+- Create scripts within '.scripts/' to setup vim-plug, and other additional configurations that I don't currently want to be automated.
