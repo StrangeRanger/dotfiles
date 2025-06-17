@@ -44,11 +44,11 @@ fi
 
 ## Linux-only heuristics.
 echo "${C_INFO}  Checking if GUI environment is present..."
-if pidof gdm >/dev/null \
-    || pidof lightdm >/dev/null \
-    || pidof sddm >/dev/null \
-    || pidof xorg >/dev/null \
-    || pidof wayland >/dev/null \
+if pgrep -x gdm >/dev/null \
+    || pgrep -x lightdm >/dev/null \
+    || pgrep -x sddm >/dev/null \
+    || pgrep -x xorg >/dev/null \
+    || pgrep -x wayland >/dev/null \
     || [[ -n $DISPLAY ]] \
     || [[ $XDG_SESSION_TYPE == "wayland" ]] \
     || [[ $XDG_SESSION_TYPE = "x11" ]]
