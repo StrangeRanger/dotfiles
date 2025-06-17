@@ -61,8 +61,8 @@ done
 ## Update the font cache if any fonts were copied.
 if [[ $font_updated == true ]] && command -v fc-cache >/dev/null; then
     fc-cache -fv
-    echo "${C_SUCCESS}MesloLGS NF fonts installed successfully"
+    echo "${C_SUCCESS}Meslo Nerd Fonts installed successfully"
 else
-    echo "${C_SUCCESS}MesloLGS NF fonts are already installed"
+    echo "${C_SUCCESS}Meslo Nerd Fonts are already installed"
 fi
 
