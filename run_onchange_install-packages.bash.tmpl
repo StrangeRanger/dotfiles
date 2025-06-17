@@ -52,6 +52,20 @@ install_from_cache() {
 ####[ Main ]################################################################################
 
 
+echo "${C_INFO}Starting package installation process..."
+
+if [[ $EUID -ne 0 && $(uname -s) != Darwin ]]; then
+    echo "${C_NOTE}This step requires administrative rights"
+    read -rp "${C_NOTE}Do you want to continue? [y/N]: " answer
+
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+        echo "${C_INFO}Continuing with the operation..."
+    else
+        echo "${C_INFO}Operation cancelled"
+        exit 0
+    fi
+fi
+
 case "{{ .chezmoi.os }}" in
     linux)
         if command -v pacman >/dev/null; then
