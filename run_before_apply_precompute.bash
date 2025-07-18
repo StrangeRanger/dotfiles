@@ -31,12 +31,6 @@ else
     C_IS_DELTA_INSTALLED=false
 fi
 
-echo "${C_INFO}  Checking if 'tailscale' is installed..."
-if command -v tailscale >/dev/null; then
-    C_IS_TAILSCALE_INSTALLED=true
-else
-    C_IS_TAILSCALE_INSTALLED=false
-fi
 
 ###
 ### [ GUI/Headless Environment Check ]
@@ -66,7 +60,6 @@ echo "${C_INFO}  Writing precomputed data to file..."
 cat <<EOF > "$HOME/.local/share/chezmoi/.precomputed_data.json"
 {
     "isDeltaInstalled": $C_IS_DELTA_INSTALLED,
-    "isTailscaleInstalled": $C_IS_TAILSCALE_INSTALLED,
     "isGUIEnvironment": $C_IS_GUI_ENVIRONMENT
 }
 EOF
