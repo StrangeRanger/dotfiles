@@ -41,21 +41,11 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 {{ if $data.isGUIEnvironment -}}
-{{- if $data.isTailscaleInstalled -}}
-plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found tailscale)  # Desktop
-#plugins=(colored-man-pages command-not-found tailscale)  # Server
-{{- else -}}
 plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found)  # Desktop
 #plugins=(colored-man-pages command-not-found)  # Server
-{{- end -}}
-{{- else -}}
-{{- if $data.isTailscaleInstalled -}}
-#plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found tailscale)  # Desktop
-plugins=(colored-man-pages command-not-found tailscale)  # Server
 {{- else -}}
 #plugins=(colored-man-pages copybuffer copypath copyfile bgnotify command-not-found)  # Desktop
 plugins=(colored-man-pages command-not-found)  # Server
-{{- end -}}
 {{- end }}
 
 
