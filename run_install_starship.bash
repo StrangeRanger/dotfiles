@@ -18,9 +18,17 @@ readonly C_ERROR="${C_RED}ERROR:${C_NC} "
 readonly C_INFO="${C_BLUE}==>${C_NC} "
 readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
+C_OS="$(uname -s)"
+readonly C_OS
+
 
 ####[ Main ]################################################################################
 
+
+if [[ $C_OS == "Darwin" ]]; then
+    echo "${C_INFO}Skipping Starship installation on macOS (use Homebrew instead)"
+    exit 0
+fi
 
 echo "${C_INFO}Installing cross-shell prompt, Starship..."
 

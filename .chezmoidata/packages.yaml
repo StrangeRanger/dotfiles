@@ -23,6 +23,7 @@ packages:
         - "neovim"
         - "trash-cli"
         - "git-delta"
+        - "starship"
         # - "command-not-found"  # TODO: https://github.com/Homebrew/homebrew-command-not-found
       casks:
         - "font-meslo-lg-nerd-font"
