@@ -1,30 +1,39 @@
 packages:
   linux:
     general:
-      - "git"
       - "curl"
+      - "gcc"
+      - "git"
+      - "tree"
       - "wget"
       - "zsh"
-      - "tree"
-      - "gcc"
     pacman:
+      - "git-delta"
       - "neovim"
       - "trash-cli"
-      - "git-delta"
     apt:
       - "apt-listchanges"
-      - "deborphan"
       - "command-not-found"
+      - "deborphan"
   macos:
     homebrew:
       formulas:
-        - "git"
-        - "zsh"
-        - "neovim"
-        - "trash-cli"
-        - "git-delta"
-        - "starship"
         - "bash"
+        - "codespell"
+        - "duf"
+        - "fzf"
+        - "git"
+        - "git-delta"
+        - "git-open"
+        - "htop"
+        - "ncdu"
+        - "neovim"
+        - "shellcheck"
+        - "starship"
+        - "trash-cli"
+        - "tree"
+        - "uv"
+        - "zsh"
         # - "command-not-found"  # TODO: https://github.com/Homebrew/homebrew-command-not-found
       casks:
         - "font-meslo-lg-nerd-font"
