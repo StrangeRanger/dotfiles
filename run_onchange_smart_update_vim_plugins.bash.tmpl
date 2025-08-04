@@ -109,7 +109,7 @@ should_update_plugins() {
 update_vim_plugins() {
     echo "${C_INFO}Installing/updating Neovim plugins..."
 
-    # Run PlugInstall and PlugUpdate in headless mode
+    # Run PlugInstall and PlugUpdate in headless mode.
     if nvim --headless +PlugInstall +PlugUpdate +qall 2>/dev/null; then
         echo "${C_SUCCESS}Neovim plugins installed/updated successfully"
         cat > "$C_UPDATE_MARKER" << EOF
@@ -152,4 +152,4 @@ if should_update_plugins; then
     fi
 fi
 
-echo "${C_SUCCESS}Neovim plugin check completed!"
+echo "${C_SUCCESS}Neovim plugin check completed"
