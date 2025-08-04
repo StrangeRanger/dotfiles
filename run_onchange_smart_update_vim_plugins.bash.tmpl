@@ -77,11 +77,11 @@ should_update_plugins() {
         return 0
     fi
 
-{{- if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" }}
     local last_update_time=$(stat -f %m "$C_UPDATE_MARKER")
-{{- else if eq .chezmoi.os "linux" -}}
+{{- else if eq .chezmoi.os "linux" }}
     local last_update_time=$(stat -c %Y "$C_UPDATE_MARKER")
-{{- end -}}
+{{- end }}
 
     local current_time=$(date +%s)
     local time_diff=$((current_time - last_update_time))
