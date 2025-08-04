@@ -26,7 +26,7 @@ readonly C_OS
 
 
 if [[ $C_OS == "Darwin" ]]; then
-    echo "${C_NOTE}Skipping Starship installation on macOS (use Homebrew instead)"
+    echo "${C_NOTE}Skipping Starship installation on macOS"
     exit 0
 fi
 
