@@ -73,7 +73,8 @@ install_vim_plug() {
 #   - 1: Plugins are up-to-date (marker exists and is recent).
 should_update_plugins() {
     if [[ ! -f "$C_UPDATE_MARKER" ]]; then
-        echo "${C_INFO}No previous update marker found, updating plugins..."
+        echo "${C_NOTE}No previous update marker found"
+        echo "${C_INFO}Updating plugins..."
         return 0
     fi
 
