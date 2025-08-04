@@ -33,7 +33,7 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 
 if [[ "$C_OS" == "Darwin" ]]; then
-    echo "${C_INFO}Skipping font installation on macOS..."
+    echo "${C_NOTE}Skipping font installation on macOS..."
     exit 0
 else
   # Font folder location on Linux.
@@ -65,4 +65,3 @@ if [[ $font_updated == true ]] && command -v fc-cache >/dev/null; then
 else
     echo "${C_SUCCESS}Meslo Nerd Fonts are already installed"
 fi
-
