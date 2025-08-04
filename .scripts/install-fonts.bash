@@ -35,7 +35,7 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 
 if [[ "$C_OS" == "Darwin" ]]; then
-    echo "${C_NOTE}Skipping font installation on macOS..."
+    echo "${C_NOTE}Skipping font installation on macOS (use Homebrew instead)"
     exit 0
 else
   # Font folder location on Linux.
