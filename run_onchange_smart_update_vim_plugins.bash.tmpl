@@ -87,17 +87,20 @@ should_update_plugins() {
     local time_diff=$((current_time - last_update_time))
     local days_since_update=$((time_diff / 86400))
 
+    echo "${C_NOTE}Plugins last updated '$days_since_update' day(s) ago"
+
     if (( days_since_update >= C_UPDATE_INTERVAL_DAYS )); then
-        echo "${C_INFO}Plugins last updated $days_since_update days ago, updating..."
+        echo "${C_INFO}Updating plugins..."
         return 0
     else
-        echo "${C_NOTE}Plugins were updated $days_since_update days ago, skipping update"
+        echo "${C_INFO}Skipping plugin update..."
         return 1
     fi
 }
 
 ####
-# Install and update vim plugins using vim-plug.
+# Install and update vim plugins using vim-plug. Additionally, create or update the marker
+# file to track the last time the plugins were updated.
 #
 # RETURNS:
 #   - 0: Plugins installed/updated successfully.
@@ -108,10 +111,18 @@ update_vim_plugins() {
     # Run PlugInstall and PlugUpdate in headless mode
     if nvim --headless +PlugInstall +PlugUpdate +qall 2>/dev/null; then
         echo "${C_SUCCESS}Neovim plugins installed/updated successfully"
-        # Create/update the marker file
-        mkdir -p "$(dirname "$C_UPDATE_MARKER")"
-        touch "$C_UPDATE_MARKER"
-        echo "$(date +%Y-%m-%dT%H:%M:%S)" > "$C_UPDATE_MARKER"
+        cat > "$C_UPDATE_MARKER" << EOF
+DO NOT MODIFY THIS FILE
+
+This file is automatically managed by the chezmoi script:
+run_onchange_smart_update_vim_plugins.bash.tmpl
+
+Modifying this file will affect how the script determines when
+Neovim plugins were last updated, potentially causing plugins
+to be updated more or less frequently than intended.
+
+Last plugin update: $(date +%Y-%m-%dT%H:%M:%S)
+EOF
         return 0
     else
         echo "${C_ERROR}Failed to install/update some Neovim plugins"
