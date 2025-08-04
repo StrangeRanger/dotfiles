@@ -94,7 +94,7 @@ should_update_plugins() {
         echo "${C_INFO}Updating plugins..."
         return 0
     else
-        echo "${C_INFO}Skipping plugin update..."
+        echo "${C_NOTE}Skipping plugin update (run within $C_UPDATE_INTERVAL_DAYS days)"
         return 1
     fi
 }
@@ -150,8 +150,6 @@ if should_update_plugins; then
     if ! update_vim_plugins; then
         exit 1
     fi
-else
-    echo "${C_NOTE}Skipping plugin update (run within $C_UPDATE_INTERVAL_DAYS days)"
 fi
 
 echo "${C_SUCCESS}Neovim plugin check completed!"
