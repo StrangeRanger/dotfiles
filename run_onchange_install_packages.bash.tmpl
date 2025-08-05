@@ -47,7 +47,7 @@ install_from_cache() {
             # Update the cache so subsequent checks see this package as installed.
             installed_packages+=$'\n'"$pkg"
         else
-            echo "${C_ERROR}  Installation of '$pkg' failed."
+            echo "${C_ERROR}  Failed to install '$pkg'" >&2
         fi
     fi
 }
@@ -64,6 +64,7 @@ if [[ $EUID -ne 0 && $(uname -s) != Darwin ]]; then
 
     if [[ ! $answer =~ ^[Yy]$ ]]; then
         echo "${C_WARNING}Operation cancelled" >&2
+        echo ""
         exit 0
     fi
 fi
@@ -122,7 +123,9 @@ case "{{ .chezmoi.os }}" in
         ;;
 
     *)
-        echo "${C_ERROR}Unsupported operating system: {{ .chezmoi.os }}"
+        echo "${C_ERROR}Unsupported operating system: {{ .chezmoi.os }}" >&2
+        echo "${C_NOTE}Skipping package installation"
+        echo ""
         exit 1
         ;;
 esac
