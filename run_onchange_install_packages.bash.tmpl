@@ -12,7 +12,7 @@ C_BLUE="$(printf '\033[0;34m')"
 C_CYAN="$(printf '\033[0;36m')"
 C_RED="$(printf '\033[1;31m')"
 C_NC="$(printf '\033[0m')"
-readonly C_GREEN C_BLUE C_CYAN C_RED C_NC
+readonly C_YELLOW C_GREEN C_BLUE C_RED C_CYAN C_NC
 
 readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
 readonly C_WARNING="${C_YELLOW}==>${C_NC} "
@@ -33,13 +33,14 @@ installed_packages=""
 # cache.
 install_from_cache() {
     local pkg="$1"
-    local install_cmd="$2"
+    shift  # Remove first argument, rest are the command and its arguments.
+    local install_cmd=("$@")
 
     if grep -Fxq "$pkg" <<< "$installed_packages"; then
         echo "${C_NOTE}  '$pkg' is already installed"
     else
         echo "${C_INFO}  Installing '$pkg'..."
-        if eval "$install_cmd"; then
+        if "${install_cmd[@]}"; then
             # Update the cache so subsequent checks see this package as installed.
             installed_packages+=$'\n'"$pkg"
         else
@@ -78,12 +79,12 @@ case "{{ .chezmoi.os }}" in
 
             echo "${C_INFO}Installing general packages..."
             {{- range .packages.linux.general }}
-            install_from_cache "{{ . }}" "sudo pacman -S --noconfirm --needed '{{ . }}'"
+            install_from_cache "{{ . }}" sudo pacman -S --noconfirm --needed "{{ . }}"
             {{- end }}
 
             echo "${C_INFO}Installing pacman-specific packages..."
             {{- range .packages.linux.pacman }}
-            install_from_cache "{{ . }}" "sudo pacman -S --noconfirm --needed '{{ . }}'"
+            install_from_cache "{{ . }}" sudo pacman -S --noconfirm --needed "{{ . }}"
             {{- end }}
         elif command -v apt >/dev/null; then
             echo "${C_INFO}Updating package lists..."
@@ -94,12 +95,12 @@ case "{{ .chezmoi.os }}" in
 
             echo "${C_INFO}Installing general packages..."
             {{- range .packages.linux.general }}
-            install_from_cache "{{ . }}" "sudo apt-get install -y '{{ . }}'"
+            install_from_cache "{{ . }}" sudo apt-get install -y "{{ . }}"
             {{- end }}
 
             echo "${C_INFO}Installing apt-specific packages..."
             {{- range .packages.linux.apt }}
-            install_from_cache "{{ . }}" "sudo apt-get install -y '{{ . }}'"
+            install_from_cache "{{ . }}" sudo apt-get install -y "{{ . }}"
             {{- end }}
         fi
         ;;
@@ -110,12 +111,12 @@ case "{{ .chezmoi.os }}" in
 
         echo "${C_INFO}Installing Homebrew formulas..."
         {{- range .packages.macos.homebrew.formulas }}
-        install_from_cache "{{ . }}" "brew install '{{ . }}'"
+        install_from_cache "{{ . }}" brew install "{{ . }}"
         {{- end }}
 
         echo "${C_INFO}Installing Homebrew casks..."
         {{- range .packages.macos.homebrew.casks }}
-        install_from_cache "{{ . }}" "brew install --cask '{{ . }}'"
+        install_from_cache "{{ . }}" brew install --cask "{{ . }}"
         {{- end }}
         ;;
 
@@ -126,4 +127,5 @@ case "{{ .chezmoi.os }}" in
 esac
 # shellcheck enable=SC1009,SC1054,SC1072,SC1073,SC1083
 
-echo "${C_SUCCESS}Package installation complete"
+echo "${C_SUCCESS}Package installation completed"
+echo ""
