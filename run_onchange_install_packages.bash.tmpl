@@ -34,6 +34,12 @@ installed_packages=""
 # Checks the global installed_packages cache for the package. If not found, it runs the
 # provided install command. Upon a successful installation, it appends the package to the
 # cache.
+#
+# PARAMETERS:
+#   - $1: pkg (required)
+#     - The name of the package to check/install.
+#   - $@: install_cmd
+#     - The command to run for installing the package, followed by its arguments.
 install_from_cache() {
     local pkg="$1"
     shift  # Remove first argument, rest are the command and its arguments.
