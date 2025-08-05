@@ -80,7 +80,7 @@ fi
 
 # shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1083
 case "$C_OS" in
-    linux)
+    Linux)
         if command -v pacman >/dev/null; then
             echo "${C_INFO}Updating package lists..."
             sudo pacman -Syu --noconfirm
@@ -116,7 +116,7 @@ case "$C_OS" in
         fi
         ;;
 
-    darwin)
+    Darwin)
         echo "${C_INFO}Retrieving installed Homebrew formulas..."
         installed_packages="$( { brew list --formula; brew list --cask; } | sort -u )"
 
