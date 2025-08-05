@@ -21,8 +21,7 @@ readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
 readonly C_INFO="${C_BLUE}==>${C_NC} "
 
 # shellcheck disable=all
-{{- $src := .chezmoi.sourceDir -}}
-C_CHEZMOI_DIR={{ $src | quote }}
+C_CHEZMOI_DIR={{ .chezmoi.sourceDir | quote }}
 # shellcheck enable=all
 
 
