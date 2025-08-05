@@ -66,6 +66,7 @@ if [[ $EUID -ne 0 && $(uname -s) != Darwin ]]; then
     fi
 fi
 
+# shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1083
 case "{{ .chezmoi.os }}" in
     linux)
         if command -v pacman >/dev/null; then
@@ -123,5 +124,6 @@ case "{{ .chezmoi.os }}" in
         exit 1
         ;;
 esac
+# shellcheck enable=SC1009,SC1054,SC1072,SC1073,SC1083
 
 echo "${C_SUCCESS}Package installation complete"
