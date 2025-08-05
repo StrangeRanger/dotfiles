@@ -108,7 +108,7 @@ The configuration uses chezmoi templates, making it easy to:
 The setup process will automatically:
 
 1. **Install Oh My Zsh** and useful plugins (autosuggestions, syntax highlighting, etc.)
-2. **Install Starship prompt** (Linux only, macOS users should install via Homebrew)
+2. **Install Starship prompt** and configure it with `private_dot_config/starship.toml`
 3. **Install packages** based on your system (see `.chezmoidata/packages.yaml`)
 4. **Install Nerd Fonts** for terminal icons and better appearance
 5. **Configure Neovim** with vim-plug and install/update plugins
@@ -153,7 +153,7 @@ To customize these dotfiles for your own use:
 
 **Permission denied during package installation**
 ```bash
-# Make sure you have sudo privileges on Linux
+# Make sure you have sudo privileges on Linux.
 sudo -v
 ```
 
@@ -163,7 +163,7 @@ sudo -v
 
 **Neovim plugins not loading**
 ```bash
-# Manually update plugins
+# Manually update plugins.
 nvim +PlugInstall +PlugUpdate +qall
 ```
 
