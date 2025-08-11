@@ -189,6 +189,10 @@ nvim +PlugInstall +PlugUpdate +qall
 | `dot_zshrc.tmpl` | Main Zsh configuration (platform-aware) |
 | `run_*.bash.tmpl` | Setup and maintenance scripts for automated installation |
 
+## Support and Issues
+
+Please use [GitHub Issues](https://github.com/StrangeRanger/dotfiles/issues) for bug reports and feature requests.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
