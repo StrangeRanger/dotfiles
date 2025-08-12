@@ -77,4 +77,5 @@ else
     echo "${C_SUCCESS}Meslo Nerd Fonts already present"
 fi
 
-echo ""
+# Commented out because this is the last script run by chezmoi.
+#echo ""
