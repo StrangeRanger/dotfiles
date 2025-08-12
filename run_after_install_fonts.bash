@@ -40,14 +40,16 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 if [[ $C_OS == "Darwin" ]]; then
     echo "${C_NOTE}Skipping font installation on macOS"
-    echo ""
+    # Commented out because this is the last script run by chezmoi.
+    # echo ""
     exit 0
 elif [[ $C_OS == "Linux" ]]; then
     C_FONT_DIR="$HOME/.local/share/fonts"
 else
     echo "${C_ERROR}Unsupported operating system: $C_OS"  >&2
     echo "${C_NOTE}Skipping font installation"
-    echo ""
+    # Commented out because this is the last script run by chezmoi.
+    # echo ""
     exit 3
 fi
 
@@ -78,4 +80,4 @@ else
 fi
 
 # Commented out because this is the last script run by chezmoi.
-#echo ""
+# echo ""
