@@ -67,11 +67,19 @@ install_from_cache() {
 
 echo "${C_INFO}Installing CLI packages..."
 
-if [[ $EUID -ne 0 && $C_OS != "Darwin" ]]; then
+if [[ $EUID != 0 && $C_OS != "Darwin" ]]; then
+    if [[ ! -t 0 ]]; then
+        echo "${C_ERROR}Non-interactive environment detected" >&2
+        echo "${C_NOTE}Skipping package installation"
+        echo "${C_NOTE}Run interactively to install packages"
+        echo ""
+        exit 0
+    fi
+
     echo "${C_NOTE}This step requires administrative rights"
     read -rp "${C_NOTE}Do you want to continue? [y/N]: " answer
 
-    if [[ ! $answer =~ ^[Yy]$ ]]; then
+    if [[ ! $answer =~ ^[Yy] ]]; then
         echo "${C_WARNING}Operation cancelled" >&2
         echo ""
         exit 0
