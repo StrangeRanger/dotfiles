@@ -106,22 +106,22 @@ show_diff "$C_CURRENT_HEAD" "$C_TEMPLATE_HEAD"
 echo ""
 
 if [[ -t 0 ]]; then
-    read -r -p "${C_NOTE}Proceed with 'chezmoi apply'? [y]es / [s]kip / [C]ancel apply: " answer
+    read -r -p "${C_NOTE}Proceed with 'chezmoi apply'? [y]es / [S]kip / [c]ancel apply: " answer
 
     case "$answer" in
         [yY]*)
             echo "${C_NOTE}Changes will be applied to '~/.zshrc'"
             echo ""
             ;;
-        [sS]*)
-            echo "${C_NOTE}Skipping 'chezmoi apply'"
-            echo ""
-            : > "$C_SKIP_FLAG"
-            ;;
         [cC]*)
             echo "${C_WARNING}Cancelling 'chezmoi apply'"
             echo ""
             exit 1
+            ;;
+        *)
+            echo "${C_NOTE}Skipping 'chezmoi apply'"
+            echo ""
+            : > "$C_SKIP_FLAG"
             ;;
     esac
 else
