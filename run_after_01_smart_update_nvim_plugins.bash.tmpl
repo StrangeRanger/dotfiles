@@ -74,12 +74,10 @@ should_update_plugins() {
     echo "${C_NOTE}Plugins last updated '$days_since_update' day(s) ago"
 
     if (( days_since_update >= C_UPDATE_INTERVAL_DAYS )); then
-        echo "${C_INFO}Updating plugins..."
         return 0
-    else
-        echo "${C_NOTE}Skipping plugin update (run within $C_UPDATE_INTERVAL_DAYS days)"
-        return 1
     fi
+
+    return 1
 }
 
 
@@ -110,7 +108,7 @@ if [[ ! -f "$C_PLUG_PATH" ]]; then
 fi
 
 if should_update_plugins; then
-    echo "${C_INFO}Installing/updating Neovim plugins..."
+    echo "${C_INFO}Updating plugins..."
 
     # Run PlugInstall and PlugUpdate in headless mode.
     if nvim --headless +PlugInstall +PlugUpdate +qall 2>/dev/null; then
@@ -132,6 +130,8 @@ EOF
         echo ""
         exit 1
     fi
+else
+    echo "${C_NOTE}Skipping plugin update (run within $C_UPDATE_INTERVAL_DAYS days)"
 fi
 
 echo "${C_SUCCESS}Neovim plugin check completed"
