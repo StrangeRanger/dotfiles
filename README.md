@@ -18,6 +18,7 @@ This repository contains my personal dotfiles and terminal configurations, manag
   - [Quick Start](#quick-start)
   - [What Happens During Installation](#what-happens-during-installation)
   - [Updating](#updating)
+    - [Non-Interactive Behavior](#non-interactive-behavior)
   - [Customization](#customization)
     - [Key Customization Points](#key-customization-points)
   - [Troubleshooting](#troubleshooting)
@@ -37,7 +38,7 @@ This repository contains my personal dotfiles and terminal configurations, manag
 - **Font Management**: Automated [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) installation for terminal icons
 - **Package Management**: Cross-platform package installation and management
 - **Environment Detection**: Smart detection of GUI vs headless environments
- - **Selective File Management**: Partial management of `~/.zshrc` (only the section above a marker line is managed; everything beneath is preserved across applies)
+- **Selective File Management**: Partial management of `~/.zshrc` (only the section above a marker line is managed; everything beneath is preserved across applies)
 
 ## Features
 
@@ -71,8 +72,8 @@ The configuration uses chezmoi templates, making it easy to:
 - **Git** (version 2.0+)
 - **Zsh** (recommended shell, will be configured automatically)
 - **Bash** (version 3.0+)
-- Internet connection for downloading external resources
-- Administrative privileges (for package installation on Linux)
+- **Internet connection** for downloading external resources
+- **Administrative privileges** (for package installation on Linux)
 
 ### Optional but Recommended
 - [1Password](https://1password.com/) for Git commit signing
@@ -105,7 +106,7 @@ The configuration uses chezmoi templates, making it easy to:
    ```
 
    > [!NOTE]
-   > The first run will install packages, fonts, and configure your environment. This may take several minutes and will require administrative privileges on Linux systems.
+   > The first run will install packages, fonts, and configure your environment. This may take a minute or two and will require administrative privileges on Linux systems.
 
 ## What Happens During Installation
 
@@ -139,16 +140,29 @@ During update/apply you may see a prompt like:
 Detected changes in ~/.zshrc above '#### chezmoi:unmodified'.
 --- current (head) vs rendered (head) diff ---
 <colorized diff>
-Proceed with 'chezmoi apply'? [y]es / [s]kip / [C]ancel apply:
+Proceed with 'chezmoi apply'? [y]es / [S]kip / [c]ancel apply:
 ```
 
-Options:
-- `y` – apply the updated managed head.
-- `s` – skip modifying `~/.zshrc` this run (a skip flag file is created so the modify template leaves it as-is).
-- `C` – abort the entire apply. This is the **default option** if no input is given.
+**Options**:
+- `y` – Apply the updated managed head
+- `s` – Skip modifying `~/.zshrc` this run (a skip flag file is created so the modify template leaves it as-is)
+- `c` – Abort the entire apply
 
-Skip flag path:
+**Default / no input**:
+- Pressing Enter (blank input) or running non-interactively defaults to `s` (skip). The rest of the apply continues as normal.
+
+**Skip flag path**:
 - `$XDG_RUNTIME_DIR/chezmoi/skip-dot-zshrc` (fallback: `~/.cache/chezmoi/skip-dot-zshrc`). It is cleared automatically on the next run.
+
+### Non-Interactive Behavior
+
+Some steps are intentionally skipped when no TTY is available (e.g. in CI or automated provisioning) to avoid hanging on privilege prompts:
+
+- **`.zshrc` head drift**: Defaults to skip (managed head left untouched) and writes the skip flag. Re-run interactively to apply the change.
+- **Package installation**: Skipped with a notice if user input would be required (Linux privilege escalation) and stdin is not a TTY.
+- **Starship installation (when not root)**: Skipped if the environment is not interactive.
+
+These safeguards ensure unattended runs complete safely without partial or unintended configuration changes.
 
 ## Customization
 
