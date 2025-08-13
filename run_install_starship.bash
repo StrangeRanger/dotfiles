@@ -35,8 +35,8 @@ echo "${C_INFO}Installing Starship prompt..."
 if (( EUID != 0 )); then
     if [[ ! -t 0 ]]; then
         echo "${C_ERROR}Non-interactive environment detected" >&2
-        echo "${C_NOTE}Skipping Starship installation"
         echo "${C_NOTE}Run interactively to install Starship"
+        echo "${C_NOTE}Skipping Starship installation"
         echo ""
         exit 0
     fi

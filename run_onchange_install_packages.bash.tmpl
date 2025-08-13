@@ -70,8 +70,8 @@ echo "${C_INFO}Installing CLI packages..."
 if [[ $EUID != 0 && $C_OS != "Darwin" ]]; then
     if [[ ! -t 0 ]]; then
         echo "${C_ERROR}Non-interactive environment detected" >&2
-        echo "${C_NOTE}Skipping package installation"
         echo "${C_NOTE}Run interactively to install packages"
+        echo "${C_NOTE}Skipping package installation"
         echo ""
         exit 0
     fi
