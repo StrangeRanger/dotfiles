@@ -108,7 +108,7 @@ if [[ ! -f "$C_PLUG_PATH" ]]; then
 fi
 
 if should_update_plugins; then
-    echo "${C_INFO}Updating plugins..."
+    echo "${C_INFO}Installing/updating plugins..."
 
     # Run PlugInstall and PlugUpdate in headless mode.
     if nvim --headless +PlugInstall +PlugUpdate +qall 2>/dev/null; then
