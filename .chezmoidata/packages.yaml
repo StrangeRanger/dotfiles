@@ -4,10 +4,13 @@ packages:
       - "curl"
       - "gcc"
       - "git"
+      - "htop"
+      - "ncdu"
       - "tree"
       - "wget"
       - "zsh"
     pacman:
+      - "eza"
       - "git-delta"
       - "neovim"
       - "trash-cli"
@@ -15,6 +18,7 @@ packages:
       - "apt-listchanges"
       - "command-not-found"
       - "deborphan"
+      - "rust-eza"
   macos:
     homebrew:
       formulas:
