@@ -12,7 +12,7 @@ C_BLUE="$(printf '\033[0;34m')"
 C_CYAN="$(printf '\033[0;36m')"
 C_RED="$(printf '\033[1;31m')"
 C_NC="$(printf '\033[0m')"
-readonly C_YELLOW C_GREEN C_BLUE C_RED C_NC
+readonly C_YELLOW C_GREEN C_BLUE C_CYAN C_RED C_NC
 
 readonly C_WARNING="${C_YELLOW}==>${C_NC} "
 readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
