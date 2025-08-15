@@ -21,12 +21,10 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 
-####[ Main ]################################################################################
+####[ Checks ]##############################################################################
 
 
 [[ "$(uname -s)" == "Darwin" ]] && exit 0
-
-echo "${C_INFO}Installing Starship prompt..."
 
 if [[ ! -t 0 ]]; then
     echo "${C_ERROR}Non-interactive environment detected" >&2
@@ -35,6 +33,12 @@ if [[ ! -t 0 ]]; then
     echo ""
     exit 0
 fi
+
+
+####[ Main ]################################################################################
+
+
+echo "${C_INFO}Installing Starship prompt..."
 
 if (( EUID != 0 )); then
     echo "${C_NOTE}This step requires administrative rights"
