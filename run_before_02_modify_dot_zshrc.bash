@@ -47,12 +47,11 @@ show_diff() {
     local file_two="$2"
 
     if command -v delta &>/dev/null; then
-        diff -u --label current --label rendered "$file_one" "$file_two" \
-            | delta --paging=never || true
+        diff -u --label current --label rendered "$file_one" "$file_two" delta --paging=never
     elif command -v git &>/dev/null; then
-        git --no-pager diff --no-index -- "$file_one" "$file_two" || true
+        git --no-pager diff --no-index -- "$file_one" "$file_two"
     else
-        diff -u --label current --label rendered "$file_one" "$file_two" || true
+        diff -u --label current --label rendered "$file_one" "$file_two"
     fi
 }
 
