@@ -5,13 +5,13 @@ packages:
       - "eza"
       - "gcc"
       - "git"
+      - "git-delta"
       - "htop"
       - "ncdu"
       - "tree"
       - "wget"
       - "zsh"
     pacman:
-      - "git-delta"
       - "neovim"
       - "trash-cli"
     apt:
