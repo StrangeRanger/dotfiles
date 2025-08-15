@@ -21,6 +21,7 @@ packages:
         - "bash"
         - "codespell"
         - "duf"
+        - "eza"
         - "fzf"
         - "git"
         - "git-delta"
