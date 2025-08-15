@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Install the cross-shell prompt, Starship.
+# Install the cross-shell prompt, Starship, on Linux distributions.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
@@ -24,23 +24,19 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 ####[ Main ]################################################################################
 
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    echo "${C_NOTE}Skipping Starship installation on macOS"
+[[ "$(uname -s)" == "Darwin" ]] && exit 0
+
+echo "${C_INFO}Installing Starship prompt..."
+
+if [[ ! -t 0 ]]; then
+    echo "${C_ERROR}Non-interactive environment detected" >&2
+    echo "${C_NOTE}Run interactively to install Starship"
+    echo "${C_NOTE}Skipping Starship installation"
     echo ""
     exit 0
 fi
 
-echo "${C_INFO}Installing Starship prompt..."
-
 if (( EUID != 0 )); then
-    if [[ ! -t 0 ]]; then
-        echo "${C_ERROR}Non-interactive environment detected" >&2
-        echo "${C_NOTE}Run interactively to install Starship"
-        echo "${C_NOTE}Skipping Starship installation"
-        echo ""
-        exit 0
-    fi
-
     echo "${C_NOTE}This step requires administrative rights"
     read -rp "${C_NOTE}Do you want to continue? [y/N]: " answer
 
