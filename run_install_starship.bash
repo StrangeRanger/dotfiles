@@ -21,6 +21,41 @@ readonly C_INFO="${C_BLUE}==>${C_NC} "
 readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 
+####[ Functions ]###########################################################################
+
+
+####
+# Compare the installed and latest version of Starship.
+#
+# PARAMETERS:
+#   - $1: latest_starship_version (Required)
+#       - The latest version of Starship available on Github.
+#
+# RETURNS:
+#   - 0: Starship is not installed.
+#   - 1: The most recent version of Starship is installed.
+compare_starship_versions() {
+    local latest_starship_version="$1"
+    local starship_version_output installed_starship_version
+
+    if command -v starship >/dev/null; then
+        read -ra starship_version_output < <(starship --version  2>/dev/null)
+        installed_starship_version="${starship_version_output[1]}"
+    else
+        return 0
+    fi
+
+    if [[ $installed_starship_version != "$latest_starship_version" ]]; then
+        echo "${C_WARNING}Installed Starship version ($installed_starship_version) is not the" \
+            "latest ($latest_starship_version)"
+    else
+        echo "${C_SUCCESS}Installed Starship version ($installed_starship_version) is the latest"
+        echo ""
+        return 1
+    fi
+}
+
+
 ####[ Checks ]##############################################################################
 
 
@@ -38,7 +73,17 @@ fi
 ####[ Main ]################################################################################
 
 
-echo "${C_INFO}Installing Starship prompt..."
+echo "${C_INFO}Performing Starship prompt version check..."
+
+latest_starship_version=$(
+    curl -s "https://api.github.com/repos/starship/starship/releases/latest" \
+        | grep '"tag_name":' \
+        | sed -E 's/.*"v?([^"]+)".*/\1/'
+)
+
+compare_starship_versions "$latest_starship_version" || exit 0
+
+echo "${C_INFO}Installing Starship prompt v${latest_starship_version}..."
 
 if (( EUID != 0 )); then
     echo "${C_NOTE}This step requires administrative rights"
