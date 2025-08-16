@@ -4,7 +4,7 @@
 {{- $flagDir := or (env "XDG_RUNTIME_DIR") (joinPath .chezmoi.homeDir ".cache") -}}
 {{- $skipFlag := joinPath $flagDir "chezmoi/skip-dot-zshrc" -}}
 {{- if stat $skipFlag -}}
-  {{- warnf "Skipping ~/.zshrc update this run (selected in run_before)." -}}
+  // {{- warnf "Skipping ~/.zshrc update this run (selected in run_before)." -}}
   {{- .chezmoi.stdin -}}
 {{- else -}}
 
