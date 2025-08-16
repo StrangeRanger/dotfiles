@@ -45,10 +45,15 @@ readonly C_NEOVIM_URL="https://github.com/neovim/neovim/releases/latest/download
 ####
 # Compare the installed and latest version of Neovim.
 #
+# PARAMETERS:
+#   - $1: latest_nvim_version (Required)
+#       - The latest version of Neovim available on Github.
+#
 # RETURNS:
 #   - 0: Neovim is not installed.
 #   - 1: The most recent version of Neovim is installed.
 compare_neovim_versions() {
+    local latest_nvim_version="$1"
     local nvim_version_output installed_nvim_version
 
     if command -v nvim >/dev/null; then
@@ -101,7 +106,7 @@ latest_nvim_version=$(
         | sed -E 's/.*"([^"]+)".*/\1/'
 )
 
-compare_neovim_versions || exit 0
+compare_neovim_versions "$latest_nvim_version" || exit 0
 
 echo "${C_INFO}Installing Neovim ${latest_nvim_version}..."
 
