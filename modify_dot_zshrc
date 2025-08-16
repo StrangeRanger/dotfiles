@@ -6,7 +6,6 @@
 {{- if stat $skipFlag -}}
   {{- .chezmoi.stdin -}}
 {{- else -}}
-
   {{- if eq .chezmoi.os "darwin" -}}
     {{- $base := includeTemplate ".zshrc_darwin.tmpl" -}}
     {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
@@ -25,5 +24,4 @@
   {{- else -}}
     {{- print $MARK "\n" -}}
   {{- end -}}
-
 {{- end -}}
