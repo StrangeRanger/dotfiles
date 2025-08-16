@@ -4,27 +4,26 @@
 {{- $flagDir := or (env "XDG_RUNTIME_DIR") (joinPath .chezmoi.homeDir ".cache") -}}
 {{- $skipFlag := joinPath $flagDir "chezmoi/skip-dot-zshrc" -}}
 {{- if stat $skipFlag -}}
-  // {{- warnf "Skipping ~/.zshrc update this run (selected in run_before)." -}}
   {{- .chezmoi.stdin -}}
 {{- else -}}
 
-{{- if eq .chezmoi.os "darwin" -}}
-  {{- $base := includeTemplate ".zshrc_darwin.tmpl" -}}
-  {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
-  {{- $head -}}
-{{- else if eq .chezmoi.os "linux" -}}
-  {{- $base := includeTemplate ".zshrc_linux.tmpl" -}}
-  {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
-  {{- $head -}}
-{{- else -}}
-  {{- /* Fallback: just emit nothing here; marker gets added below if needed */ -}}
-{{- end -}}
-{{- "\n" -}}
+  {{- if eq .chezmoi.os "darwin" -}}
+    {{- $base := includeTemplate ".zshrc_darwin.tmpl" -}}
+    {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
+    {{- $head -}}
+  {{- else if eq .chezmoi.os "linux" -}}
+    {{- $base := includeTemplate ".zshrc_linux.tmpl" -}}
+    {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
+    {{- $head -}}
+  {{- else -}}
+    {{- /* Fallback: just emit nothing here; marker gets added below if needed */ -}}
+  {{- end -}}
+  {{- "\n" -}}
 
-{{- if regexMatch "(?m)^#### chezmoi:unmodified" .chezmoi.stdin -}}
-  {{- regexFind "(?s)#### chezmoi:unmodified.*" .chezmoi.stdin -}}
-{{- else -}}
-  {{- print $MARK "\n" -}}
-{{- end -}}
+  {{- if regexMatch "(?m)^#### chezmoi:unmodified" .chezmoi.stdin -}}
+    {{- regexFind "(?s)#### chezmoi:unmodified.*" .chezmoi.stdin -}}
+  {{- else -}}
+    {{- print $MARK "\n" -}}
+  {{- end -}}
 
 {{- end -}}
