@@ -55,7 +55,6 @@ compare_neovim_versions() {
         read -ra nvim_version_output < <(nvim --version  2>/dev/null)
         installed_nvim_version="${nvim_version_output[1]}"
     else
-        echo "${C_NOTE}No Neovim installation found"
         return 0
     fi
 
