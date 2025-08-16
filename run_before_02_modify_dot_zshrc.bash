@@ -17,6 +17,7 @@ C_TMP_DIR="$(mktemp -d)"
 readonly C_TMP_DIR
 readonly C_CURRENT_HEAD="$C_TMP_DIR/current_head"
 readonly C_TEMPLATE_HEAD="$C_TMP_DIR/template_head"
+readonly C_CHEZMOI_OUTPUT="$C_TMP_DIR/chezmoi_output"
 
 C_YELLOW="$(printf '\033[1;33m')"
 C_GREEN="$(printf '\033[0;32m')"
@@ -85,12 +86,15 @@ echo "${C_INFO}Running '~/.zshrc' head drift check..."
 awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' "$C_TARGET" > "$C_CURRENT_HEAD"
 
 # Extract the "template head", up to $C_MARK, from chezmoi's managed source for ~/.zshrc.
-if ! chezmoi cat ~/.zshrc | awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' \
-        > "$C_TEMPLATE_HEAD" 2>/dev/null; then
+# Use a temporary file to capture chezmoi output and check for errors
+if ! chezmoi cat ~/.zshrc > "$C_CHEZMOI_OUTPUT"; then
     echo "${C_ERROR}Failed to render template for '~/.zshrc'."
     echo ""
     exit 0
 fi
+
+# Now extract the head from the successfully rendered template
+awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' "$C_CHEZMOI_OUTPUT" > "$C_TEMPLATE_HEAD"
 
 ## Exit if there is no drift.
 if cmp -s "$C_CURRENT_HEAD" "$C_TEMPLATE_HEAD"; then
