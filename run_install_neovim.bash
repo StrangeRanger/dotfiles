@@ -125,3 +125,6 @@ sudo rm -rf /opt/nvim
 sudo mkdir -p /opt/nvim
 sudo tar -C /opt/nvim --strip-components=1 -xzf "nvim-linux-${C_ARCH}.tar.gz"
 rm "nvim-linux-${C_ARCH}.tar.gz"
+
+echo "${C_SUCCESS}Neovim ${latest_nvim_version} installed successfully"
+echo ""
