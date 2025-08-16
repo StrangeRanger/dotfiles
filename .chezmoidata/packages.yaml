@@ -38,6 +38,7 @@ packages:
         - "tree"
         - "uv"
         - "zsh"
-        # - "command-not-found"  # TODO: https://github.com/Homebrew/homebrew-command-not-found
       casks:
         - "font-meslo-lg-nerd-font"
+      taps:
+        - "homebrew/command-not-found"
