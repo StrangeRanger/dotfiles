@@ -49,13 +49,7 @@ readonly C_NEOVIM_URL="https://github.com/neovim/neovim/releases/latest/download
 #   - 0: Neovim is not installed.
 #   - 1: The most recent version of Neovim is installed.
 compare_neovim_versions() {
-    local nvim_version_output installed_nvim_version latest_nvim_version
-
-    latest_nvim_version=$(
-        curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" \
-            | grep '"tag_name":' \
-            | sed -E 's/.*"([^"]+)".*/\1/'
-    )
+    local nvim_version_output installed_nvim_version
 
     if command -v nvim >/dev/null; then
         read -ra nvim_version_output < <(nvim --version  2>/dev/null)
@@ -100,6 +94,13 @@ fi
 
 
 echo "${C_INFO}Performing Neovim version check..."
+
+latest_nvim_version=$(
+    curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" \
+        | grep '"tag_name":' \
+        | sed -E 's/.*"([^"]+)".*/\1/'
+)
+
 compare_neovim_versions || exit 0
 
 echo "${C_INFO}Installing Neovim ${latest_nvim_version}..."
