@@ -73,7 +73,7 @@ fi
 ####[ Main ]################################################################################
 
 
-echo "${C_INFO}Performing Starship prompt version check..."
+echo "${C_INFO}Performing Starship version check..."
 
 latest_starship_version=$(
     curl -s "https://api.github.com/repos/starship/starship/releases/latest" \
@@ -83,7 +83,7 @@ latest_starship_version=$(
 
 compare_starship_versions "$latest_starship_version" || exit 0
 
-echo "${C_INFO}Installing Starship prompt v${latest_starship_version}..."
+echo "${C_INFO}Installing Starship v${latest_starship_version}..."
 
 if (( EUID != 0 )); then
     echo "${C_NOTE}This step requires administrative rights"
