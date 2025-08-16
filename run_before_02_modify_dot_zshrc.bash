@@ -100,7 +100,8 @@ awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' "$C_TARGET" > "$C_CURRENT_
 
 # NOTE: 'chezmoi execute-template' is used instead of 'chezmoi cat' because the latter
 #   caused chezmoi lock file conflicts on Linux systems.
-if ! chezmoi execute-template "{{ includeTemplate \"$C_TMPL_NAME\" }}" > "$C_RENDERED_TMPL"
+if ! chezmoi execute-template --output "$C_RENDERED_TMPL" \
+    "{{ includeTemplate \"$C_TMPL_NAME\" }}"
 then
     echo "${C_ERROR}Failed to render template '$C_TMPL_NAME'."
     echo ""
