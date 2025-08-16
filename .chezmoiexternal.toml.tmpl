@@ -38,3 +38,10 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+{{- if eq .chezmoi.os "linux" }}
+["./local/bin/fzf"]
+    type = "archive"
+    url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" (printf "fzf-*-linux_%s.tar.gz" .chezmoi.arch) | quote }}
+    exact = true
+    refreshPeriod = "168h"
+{{- end }}
