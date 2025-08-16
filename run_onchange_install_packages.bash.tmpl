@@ -126,16 +126,23 @@ case "$C_OS" in
 
     Darwin)
         echo "${C_INFO}Retrieving installed Homebrew formulas..."
-        installed_packages="$( { brew list --formula; brew list --cask; } | sort -u )"
+        installed_packages="$(
+            { brew list --formula; brew list --cask; brew tap; } | sort -u
+        )"
 
         echo "${C_INFO}Installing Homebrew formulas..."
         {{- range .packages.macos.homebrew.formulas }}
-        install_from_cache "{{ . }}" brew install "{{ . }}"
+        install_from_cache "{{ . }}" brew install --formula "{{ . }}"
         {{- end }}
 
         echo "${C_INFO}Installing Homebrew casks..."
         {{- range .packages.macos.homebrew.casks }}
         install_from_cache "{{ . }}" brew install --cask "{{ . }}"
+        {{- end }}
+
+        echo "${C_INFO}Adding Homebrew taps..."
+        {{- range .packages.macos.homebrew.taps }}
+        install_from_cache "{{ . }}" brew tap "{{ . }}"
         {{- end }}
         ;;
 
