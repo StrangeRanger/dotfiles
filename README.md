@@ -32,12 +32,13 @@ This repository contains my personal dotfiles and terminal configurations, manag
 ## What's Included
 
 - **Shell Configuration**: Zsh with [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and platform-specific customizations
-- **Prompt**: [Starship](https://starship.rs/) prompt with custom configurations
-- **Editor**: [Neovim](https://github.com/neovim/neovim) configurations with [vim-plug](https://github.com/junegunn/vim-plug) and automated plugin management
+- **Prompt**: [Starship](https://starship.rs/) prompt with custom configurations and automated version management
+- **Editor**: [Neovim](https://github.com/neovim/neovim) configurations with [vim-plug](https://github.com/junegunn/vim-plug), automated plugin management, and automated version management on Linux systems
 - **Git**: Global Git configurations with [Delta](https://github.com/dandavison/delta) integration for enhanced diffs
 - **Font Management**: Automated [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) installation for terminal icons
-- **Package Management**: Cross-platform package installation and management
+- **Package Management**: Cross-platform package installation and management with intelligent dependency handling
 - **Environment Detection**: Smart detection of GUI vs headless environments
+- **External Resource Management**: Templated external resource configuration with platform-specific tooling (fzf on Linux)
 - **Selective File Management**: Partial management of `~/.zshrc` (only the section above a marker line is managed; everything beneath is preserved across applies)
 
 ## Features
@@ -52,10 +53,11 @@ This repository contains my personal dotfiles and terminal configurations, manag
 
 - Font installation (Nerd Fonts for terminal icons)
 - Package installation based on your system (Homebrew, pacman, apt)
-- Starship prompt installation and configuration
-- Neovim setup with vim-plug and automated plugin updates
+- Starship prompt installation and configuration with version checking
+- Neovim setup with vim-plug, automated plugin updates, and automated version management on non-Arch Linux systems
 - Oh My Zsh installation with useful plugins
 - Git Delta setup for enhanced diff viewing
+- External tool installation (fzf on Linux systems)
 - Environment-aware configurations (GUI vs headless)
 - Safe drift detection & confirmation prompt for the managed head of `~/.zshrc`
 
@@ -113,13 +115,14 @@ The configuration uses chezmoi templates, making it easy to:
 The setup process will automatically:
 
 1. **Install Oh My Zsh** and useful plugins (autosuggestions, syntax highlighting, etc.)
-2. **Install Starship prompt** and configure it with `private_dot_config/starship.toml`
+2. **Install Starship prompt** and configure it with `private_dot_config/starship.toml` (includes automated version management on Linux)
 3. **Install packages** based on your system (see `.chezmoidata/packages.yaml`)
 4. **Install Nerd Fonts** for terminal icons and better appearance
-5. **Configure Neovim** with vim-plug and install/update plugins
+5. **Configure Neovim** with vim-plug and install/update plugins (includes automated version management on Linux)
 6. **Set up Git** with Delta for enhanced diff viewing (if available)
-7. **Configure shell environment** with platform-specific optimizations
-8. **Manage only the head of `~/.zshrc`** – a `modify_` template and a pre-apply hook ensure:
+7. **Install external tools** like fzf (on Linux systems) for enhanced functionality
+8. **Configure shell environment** with platform-specific optimizations
+9. **Manage only the head of `~/.zshrc`** – a `modify_` template and a pre-apply hook ensure:
     - The portion of the file above the marker line `#### chezmoi:unmodified` is regenerated from templates.
     - Everything below that marker (locally appended or tool-managed content) is left untouched.
     - If the current head has drifted, you are shown a colorized diff and can proceed, skip just that change, or cancel the apply.
@@ -209,8 +212,14 @@ sudo -v
 nvim +PlugInstall +PlugUpdate +qall
 ```
 
+**Neovim installation issues on Linux**
+- The script automatically detects your architecture (x86_64/arm64)
+- Ensure you have administrative privileges for installation
+- Check that curl is available for downloading the latest release
+
 **Starship prompt not showing**
 - Verify Starship is installed: `starship --version`
+- The installation script checks for the latest version automatically
 - Check if Starship is initialized in your shell config
 
 **Git commit signing issues**
@@ -222,17 +231,17 @@ nvim +PlugInstall +PlugUpdate +qall
 | File/Directory | Purpose |
 |---|---|
 | `.chezmoidata/packages.yaml` | Package definitions for automatic installation across platforms |
-| `.chezmoiexternal.toml` | External resources (Oh My Zsh, plugins, vim-plug) |
+| `.chezmoiexternal.toml.tmpl` | Templated external resources (Oh My Zsh, plugins, vim-plug, platform-specific tools) |
 | `.chezmoiignore` | Files to exclude from chezmoi management |
 | `.chezmoitemplates/.zshrc_{darwin,linux}.tmpl` | OS-specific Zsh templates |
-| `.scripts/` | Custom utility scripts (font installation, etc.) |
 | `private_dot_config/starship.toml` | Starship prompt configuration |
 | `private_dot_config/nvim/` | Neovim editor configuration and plugins |
 | `dot_gitconfig.tmpl` | Global Git configuration with Delta integration |
-| `dot_zshrc.tmpl` | (Legacy) Original combined Zsh config (superseded by partial management approach) |
 | `modify_dot_zshrc` | `modify_` template merging managed head with preserved tail below marker |
-| `run_before_02_modify_dot_zshrc.bash.tmpl` | Pre-apply drift check & prompt for `~/.zshrc` head |
-| `run_*.bash.tmpl` | Setup and maintenance scripts (packages, Neovim plugins, etc.) |
+| `run_before_02_modify_dot_zshrc.bash` | Pre-apply drift check & prompt for `~/.zshrc` head with enhanced template rendering |
+| `run_install_neovim.bash` | Neovim installation script for Linux distributions with automated version management |
+| `run_install_starship.bash` | Starship installation script with version comparison and Linux-specific handling |
+| `run_*.bash.tmpl` | Setup and maintenance scripts (packages, font installation, etc.) |
 
 ## Support and Issues
 
