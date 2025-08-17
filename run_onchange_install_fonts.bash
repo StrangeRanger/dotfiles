@@ -11,6 +11,9 @@
 # Comment Legend:
 #   - A.1.: Commented out because this is the last script run by chezmoi.
 #
+# Hash of packages config file for change detection:
+# packages.yaml hash: {{ include ".fonts/README.md" | sha256sum }}
+#
 ############################################################################################
 ####[ Global Variables ]####################################################################
 
