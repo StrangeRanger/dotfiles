@@ -83,5 +83,7 @@ chsh -s "$C_ZSH_PATH" || {
 
 echo "${C_SUCCESS}Set default shell script completed"
 echo "${C_NOTE}You'll need to log out and back in for the changes to take effect."
+echo "${C_INFO}Waiting 5 seconds..."
+sleep 5
 
 echo ""
