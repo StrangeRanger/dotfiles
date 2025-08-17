@@ -13,6 +13,7 @@ packages:
       - "zsh"
     pacman:
       - "neovim"
+      - "starship"
       - "trash-cli"
     apt:
       - "apt-listchanges"

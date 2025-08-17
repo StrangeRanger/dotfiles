@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 #
 # Install Meslo LG Nerd Fonts to the user's local font directory, on Linux systems. For
-# macOS, the script will skip the installation as they are installed via Homebrew.
+# macOS, the script will skip the installation as they are installed via
+# '.chezmoiexternal.toml'.
 #
 # NOTE:
-#   I install a small set of fonts from the '.fonts' directory. You can modify $C_FONT_FILES
-#   to include any additional fonts you want to install.
+#   I only install a small set of fonts from the '.fonts' directory. You can modify
+#   the $C_FONT_FILES array to include any additional fonts you want to install.
+#
+# Comment Legend:
+#   - A.1.: Commented out because this is the last script run by chezmoi.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
@@ -36,14 +40,23 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 ####[ Main ]################################################################################
 
 
+echo "${C_INFO}Running font installation script..."
+
+###
+### [ Initial Checks ]
+###
+
 if [[ $(uname -s) == "Darwin" ]]; then
-    echo "${C_NOTE}Skipping font installation on macOS"
-    # Commented out because this is the last script run by chezmoi.
-    # echo ""
+    echo "${C_INFO}Skipping font installation on macOS..."
+    # echo ""  # A.1.
     exit 0
 else
     C_FONT_DIR="$HOME/.local/share/fonts"
 fi
+
+###
+### [ Font Installation ]
+###
 
 echo "${C_INFO}Installing Meslo Nerd Fonts..."
 
@@ -62,14 +75,13 @@ done
 
 ## Update the font cache if any fonts were copied.
 if [[ $font_updated == true ]]; then
-    if command -v fc-cache >/dev/null; then
+    if command -v fc-cache &>/dev/null; then
         echo "${C_INFO}Updating font cache..."
         fc-cache -fv
     fi
-    echo "${C_SUCCESS}Meslo Nerd Fonts installation completed"
 else
-    echo "${C_SUCCESS}Meslo Nerd Fonts already present"
+    echo "${C_NOTE}Meslo Nerd Fonts already present"
 fi
 
-# Commented out because this is the last script run by chezmoi.
-# echo ""
+echo "${C_SUCCESS}Font installation script completed"
+# echo ""  # A.1.

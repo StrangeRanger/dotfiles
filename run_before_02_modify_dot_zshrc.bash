@@ -35,10 +35,10 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 case "$(uname -s)" in
     Darwin)
-        C_TMPL_NAME=".zshrc_darwin.tmpl"
+        readonly C_TMPL_NAME=".zshrc_darwin.tmpl"
         ;;
     Linux)
-        C_TMPL_NAME=".zshrc_linux.tmpl"
+        readonly C_TMPL_NAME=".zshrc_linux.tmpl"
         ;;
     *)
         echo "${C_ERROR}Unsupported OS: $(uname -s)"
@@ -77,25 +77,32 @@ show_diff() {
 trap 'rm -rf "$C_TMP_DIR"' EXIT
 
 
-####[ Prepping ]############################################################################
+####[ Main ]################################################################################
 
+
+echo "${C_INFO}Running zshrc head drift script..."
+
+###
+### [ Initial Checks and Prepping ]
+###
 
 [[ ! -d "$C_FLAG_DIR" ]] && mkdir -p "$C_FLAG_DIR"
 [[ -f "$C_SKIP_FLAG" ]] && rm -rf "$C_SKIP_FLAG"  # Remove stale skip flag from previous run.
 
 if [[ ! -f "$C_TARGET" ]]; then
     echo "${C_WARNING}No existing '~/.zshrc' found"
+    echo "${C_INFO}Skipping zshrc head drift check..."
     echo ""
     exit 0
 fi
 
+###
+### [ Head Drift Check ]
+###
 
-####[ Main ]################################################################################
+echo "${C_INFO}Checking for head drift in '~/.zshrc' above '$C_MARK'..."
 
-
-echo "${C_INFO}Running '~/.zshrc' head drift check..."
-
-# Extract the "current head", up to $C_MARK, from the actual ~/.zshrc on disk.
+# Extract the current head, up to $C_MARK, from '~/.zshrc'.
 awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' "$C_TARGET" > "$C_CURRENT_HEAD"
 
 # NOTE: 'chezmoi execute-template' is used instead of 'chezmoi cat' because the latter
@@ -108,7 +115,9 @@ then
     exit 0
 fi
 
-# Now extract the head from the successfully rendered template.
+# Extract the head from the successfully rendered template. Since everything beyond $C_MARK,
+# even in the template, won't be considered, this ensures accurate comparison between the
+# current head and the template head.
 awk -v mark="$C_MARK" 'index($0, mark){exit} {print}' "$C_RENDERED_TMPL" > "$C_TMPL_HEAD"
 
 ## Exit if there is no drift.
@@ -118,34 +127,39 @@ if cmp -s "$C_CURRENT_HEAD" "$C_TMPL_HEAD"; then
     exit 0
 fi
 
+###
+### [ Display Head Drift ]
+###
+
 echo "${C_WARNING}Detected changes in '~/.zshrc' above '$C_MARK'."
 echo "${C_CYAN}--- current (head) vs rendered (head) diff ---${C_NC}"
 show_diff "$C_CURRENT_HEAD" "$C_TMPL_HEAD"
 echo ""
 
 if [[ -t 0 ]]; then
-    read -r -p "${C_NOTE}Proceed with 'chezmoi apply'? [y]es / [S]kip / [c]ancel apply: " answer
+    read -rp "${C_NOTE}Proceed with changes? [y]es / [S]kip / [c]ancel apply: " answer
 
     case "$answer" in
         [yY]*)
             echo "${C_NOTE}Changes will be applied to '~/.zshrc'"
+            echo "${C_SUCCESS}Zshrc head drift check completed"
             echo ""
             ;;
         [cC]*)
-            echo "${C_WARNING}Cancelling 'chezmoi apply'"
+            echo "${C_WARNING}Cancelling changes..."
             echo ""
             exit 1
             ;;
         *)
-            echo "${C_NOTE}Skipping 'chezmoi apply'"
+            echo "${C_INFO}Skipping changes..."
             echo ""
             : > "$C_SKIP_FLAG"
             ;;
     esac
 else
     echo "${C_ERROR}Non-interactive apply and head drift detected" >&2
-    echo "${C_NOTE}Skipping 'chezmoi apply'"
     echo "${C_NOTE}Run interactively to apply changes"
+    echo "${C_INFO}Skipping 'chezmoi apply'..."
     echo ""
     : > "$C_SKIP_FLAG"
 fi

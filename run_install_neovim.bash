@@ -80,23 +80,38 @@ compare_neovim_versions() {
 trap 'rm -rf "$C_TMP_DIR"' EXIT
 
 
-####[ Checks ]##############################################################################
+####[ Main ]################################################################################
 
 
-[[ $(uname -s) == "Darwin" ]] && exit 0
-command -v pacman >/dev/null && exit 0
+echo "${C_INFO}Running Neovim installation script..."
 
-if [[ ! -t 0 ]]; then
-    echo "${C_ERROR}Non-interactive environment detected" >&2
-    echo "${C_NOTE}Run interactively to install Neovim"
-    echo "${C_NOTE}Skipping Neovim installation"
+###
+### [ Initial Checks ]
+###
+
+if [[ $(uname -s) == "Darwin" ]]; then
+    echo "${C_INFO}Skipping Neovim installation on macOS..."
     echo ""
     exit 0
 fi
 
+if command -v pacman >/dev/null; then
+    echo "${C_INFO}Skipping Neovim installation on Arch based distributions..."
+    echo ""
+    exit 0
+fi
 
-####[ Main ]################################################################################
+if [[ ! -t 0 ]]; then
+    echo "${C_ERROR}Non-interactive environment detected" >&2
+    echo "${C_NOTE}Run interactively to install Neovim"
+    echo "${C_INFO}Skipping Neovim installation..."
+    echo ""
+    exit 0
+fi
 
+###
+### [ Neovim Version Check ]
+###
 
 echo "${C_INFO}Performing Neovim version check..."
 
@@ -107,6 +122,10 @@ latest_nvim_version=$(
 )
 
 compare_neovim_versions "$latest_nvim_version" || exit 0
+
+###
+### [ Install Neovim ]
+###
 
 echo "${C_INFO}Installing Neovim ${latest_nvim_version}..."
 
@@ -131,5 +150,5 @@ sudo mkdir -p /opt/nvim
 sudo tar -C /opt/nvim --strip-components=1 -xzf "nvim-linux-${C_ARCH}.tar.gz"
 rm "nvim-linux-${C_ARCH}.tar.gz"
 
-echo "${C_SUCCESS}Neovim ${latest_nvim_version} installed successfully"
+echo "${C_SUCCESS}Neovim installation script completed"
 echo ""

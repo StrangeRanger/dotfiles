@@ -32,10 +32,10 @@ readonly C_CHEZMOI_DIR
 echo "${C_INFO}Running precompute script..."
 
 ###
-### [ Minimum Requirements Check ]
+### [ Minimum Requirement Checks ]
 ###
 
-echo "${C_INFO}  Checking minimum requirements are met..."
+echo "${C_INFO}Checking minimum requirements are met..."
 
 if [[ $C_OS != "Darwin" && $C_OS != "Linux" ]]; then
     echo "${C_ERROR}Unsupported operating system: $C_OS" >&2
@@ -53,7 +53,7 @@ fi
 ### [ Tool Presence Checks ]
 ###
 
-echo "${C_INFO}  Checking if 'git-delta' is installed..."
+echo "${C_INFO}Checking if 'git-delta' is installed..."
 if command -v delta >/dev/null; then
     is_delta_installed=true
 else
@@ -64,7 +64,7 @@ fi
 ### [ GUI/Headless Environment Check ]
 ###
 
-echo "${C_INFO}  Checking if GUI environment is present..."
+echo "${C_INFO}Checking if GUI environment is present..."
 
 if [[ $C_OS == "Darwin" ]]; then
     if launchctl print "gui/$(id -u)" &>/dev/null; then
@@ -92,7 +92,7 @@ fi
 ### [ Write Precomputed Data to File ]
 ###
 
-echo "${C_INFO}  Writing precomputed data to file..."
+echo "${C_INFO}Writing precomputed data to file..."
 cat > "${C_CHEZMOI_DIR}/.precomputed_data.json" <<EOF
 {
     "isDeltaInstalled": $is_delta_installed,

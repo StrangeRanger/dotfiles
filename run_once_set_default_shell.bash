@@ -35,6 +35,8 @@ readonly C_ZSH_PATH
 ####[ Main ]################################################################################
 
 
+echo "${C_INFO}Running set default shell script..."
+
 ###
 ### [ Initial Checks ]
 ###
@@ -79,8 +81,7 @@ chsh -s "$C_ZSH_PATH" || {
     exit 0
 }
 
-echo "${C_SUCCESS}Default shell changed to '$C_ZSH_PATH'"
-echo "${C_NOTE}You'll need to open a new terminal session or log out and back in for" \
-    "the changes to take effect."
+echo "${C_SUCCESS}Set default shell script completed"
+echo "${C_NOTE}You'll need to log out and back in for the changes to take effect."
 
 echo ""

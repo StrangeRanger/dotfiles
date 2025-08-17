@@ -46,32 +46,49 @@ compare_starship_versions() {
     fi
 
     if [[ $installed_starship_version != "$latest_starship_version" ]]; then
-        echo "${C_WARNING}Installed Starship version ($installed_starship_version) is not the" \
-            "latest ($latest_starship_version)"
+        echo "${C_WARNING}Installed Starship version ($installed_starship_version) is not" \
+            "the latest ($latest_starship_version)"
     else
-        echo "${C_SUCCESS}Installed Starship version ($installed_starship_version) is the latest"
+        echo "${C_SUCCESS}Installed Starship version ($installed_starship_version) is the" \
+            "latest"
         echo ""
         return 1
     fi
 }
 
 
-####[ Checks ]##############################################################################
+####[ Main ]################################################################################
 
 
-[[ $(uname -s) == "Darwin" ]] && exit 0
+echo "${C_INFO}Running Starship installation script..."
 
-if [[ ! -t 0 ]]; then
-    echo "${C_ERROR}Non-interactive environment detected" >&2
-    echo "${C_NOTE}Run interactively to install Starship"
-    echo "${C_NOTE}Skipping Starship installation"
+###
+### [ Initial Checks ]
+###
+
+if [[ $(uname -s) == "Darwin" ]]; then
+    echo "${C_INFO}Skipping Neovim installation on macOS..."
     echo ""
     exit 0
 fi
 
+if command -v pacman >/dev/null; then
+    echo "${C_INFO}Skipping Neovim installation on Arch based distributions..."
+    echo ""
+    exit 0
+fi
 
-####[ Main ]################################################################################
+if [[ ! -t 0 ]]; then
+    echo "${C_ERROR}Non-interactive environment detected" >&2
+    echo "${C_NOTE}Run interactively to install Starship"
+    echo "${C_INFO}Skipping Starship installation..."
+    echo ""
+    exit 0
+fi
 
+###
+### [ Starship Version Check ]
+###
 
 echo "${C_INFO}Performing Starship version check..."
 
@@ -82,6 +99,10 @@ latest_starship_version=$(
 )
 
 compare_starship_versions "$latest_starship_version" || exit 0
+
+###
+### [ Install Starship ]
+###
 
 echo "${C_INFO}Installing Starship v${latest_starship_version}..."
 
@@ -97,6 +118,6 @@ if (( EUID != 0 )); then
 fi
 
 curl -sS https://starship.rs/install.sh | sh \
-    && echo "${C_SUCCESS}Starship installation completed" \
+    && echo "${C_SUCCESS}Starship installation script completed" \
     || echo "${C_ERROR}Failed to install Starship" >&2
 echo ""

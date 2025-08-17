@@ -56,7 +56,7 @@ install_from_cache() {
             # Update the cache so subsequent checks see this package as installed.
             installed_packages+=$'\n'"$pkg"
         else
-            echo "${C_ERROR}  Failed to install '$pkg'" >&2
+            echo "${C_ERROR}Failed to install '$pkg'" >&2
         fi
     fi
 }
@@ -65,15 +65,17 @@ install_from_cache() {
 ####[ Main ]################################################################################
 
 
-echo "${C_INFO}Installing CLI packages..."
+echo "${C_INFO}Running package installation script..."
 
 if [[ ! -t 0 ]]; then
     echo "${C_ERROR}Non-interactive environment detected" >&2
     echo "${C_NOTE}Run interactively to install packages"
-    echo "${C_NOTE}Skipping package installation"
+    echo "${C_INFO}Skipping package installation..."
     echo ""
     exit 0
 fi
+
+echo "${C_INFO}Installing CLI packages..."
 
 if [[ $EUID != 0 && $C_OS != "Darwin" ]]; then
     echo "${C_NOTE}This step requires administrative rights"
@@ -148,12 +150,12 @@ case "$C_OS" in
 
     *)
         echo "${C_ERROR}Unsupported operating system: $C_OS" >&2
-        echo "${C_NOTE}Skipping package installation"
+        echo "${C_INFO}Skipping package installation..."
         echo ""
         exit 1
         ;;
 esac
 # shellcheck enable=SC1009,SC1054,SC1072,SC1073,SC1083
 
-echo "${C_SUCCESS}CLI package installation completed"
+echo "${C_SUCCESS}CLI package installation script completed"
 echo ""
