@@ -83,7 +83,7 @@ trap 'rm -rf "$C_TMP_DIR"' EXIT
 ####[ Checks ]##############################################################################
 
 
-[[ "$(uname -s)" == "Darwin" ]] && exit 0
+[[ $(uname -s) == "Darwin" ]] && exit 0
 command -v pacman >/dev/null && exit 0
 
 if [[ ! -t 0 ]]; then

@@ -7,9 +7,6 @@
 ####[ Global Variables ]####################################################################
 
 
-C_OS="$(uname -s)"
-readonly C_OS
-
 C_YELLOW="$(printf '\033[1;33m')"
 C_GREEN="$(printf '\033[0;32m')"
 C_BLUE="$(printf '\033[0;34m')"
@@ -40,27 +37,23 @@ readonly C_UPDATE_INTERVAL_DAYS=7
 #   - 0: Plugins should be updated (either no marker or outdated).
 #   - 1: Plugins are up-to-date (marker exists and is recent).
 should_update_plugins() {
+    local last_update_time
+
     if [[ ! -f "$C_UPDATE_MARKER" ]]; then
         echo "${C_NOTE}No previous update marker found"
         echo "${C_INFO}Updating plugins..."
         return 0
     fi
 
-    local last_update_time
-    if [[ $C_OS == "Darwin" ]]; then
-        if ! last_update_time=$(stat -f %m "$C_UPDATE_MARKER"); then
-            echo "${C_ERROR}Failed to get file modification time" >&2
-            echo "${C_NOTE}Please check the marker file at '$C_UPDATE_MARKER'"
-            echo "${C_NOTE}Skipping plugin update"
-            return 1
-        fi
-    elif [[ $C_OS == "Linux" ]]; then
-        if ! last_update_time=$(stat -c %Y "$C_UPDATE_MARKER"); then
-            echo "${C_ERROR}Failed to get file modification time" >&2
-            echo "${C_NOTE}Please check the marker file at '$C_UPDATE_MARKER'"
-            echo "${C_NOTE}Skipping plugin update"
-            return 1
-        fi
+    if ! last_update_time=$(
+        if [[ $(uname -s) == "Darwin" ]]; then stat -f %m "$C_UPDATE_MARKER"
+        else                             stat -c %Y "$C_UPDATE_MARKER"
+        fi );
+    then
+        echo "${C_ERROR}Failed to get last update time from marker file" >&2
+        echo "${C_NOTE}Please check the marker file at '$C_UPDATE_MARKER'"
+        echo "${C_NOTE}Skipping plugin update"
+        return 1
     fi
 
     local current_time; current_time=$(date +%s)

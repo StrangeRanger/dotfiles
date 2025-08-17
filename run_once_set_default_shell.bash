@@ -6,9 +6,6 @@
 ####[ Global Variables ]####################################################################
 
 
-C_OS="$(uname -s)"
-readonly C_OS
-
 C_YELLOW="$(printf '\033[1;33m')"
 C_GREEN="$(printf '\033[0;32m')"
 C_BLUE="$(printf '\033[0;34m')"
@@ -23,7 +20,7 @@ readonly C_ERROR="${C_RED}ERROR:${C_NC} "
 readonly C_INFO="${C_BLUE}==>${C_NC} "
 readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
-if [[ $C_OS == "Darwin" ]]; then
+if [[ $(uname -s) == "Darwin" ]]; then
     if { brew ls --version zsh && [[ -f "$(brew --prefix)/bin/zsh" ]]; } &>/dev/null; then
         C_ZSH_PATH="$(brew --prefix)/bin/zsh"
     else

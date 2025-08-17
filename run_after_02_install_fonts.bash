@@ -13,12 +13,10 @@
 
 font_updated=false
 
-C_OS=$(uname -s)
-C_FONT_FILES=("MesloLGMNerdFont-Bold.ttf"
+readonly C_FONT_FILES=("MesloLGMNerdFont-Bold.ttf"
     "MesloLGMNerdFont-BoldItalic.ttf"
     "MesloLGMNerdFont-Italic.ttf"
     "MesloLGMNerdFont-Regular.ttf")
-readonly C_OS C_FONT_FILES
 
 C_YELLOW="$(printf '\033[1;33m')"
 C_GREEN="$(printf '\033[0;32m')"
@@ -38,19 +36,13 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 ####[ Main ]################################################################################
 
 
-if [[ $C_OS == "Darwin" ]]; then
+if [[ $(uname -s) == "Darwin" ]]; then
     echo "${C_NOTE}Skipping font installation on macOS"
     # Commented out because this is the last script run by chezmoi.
     # echo ""
     exit 0
-elif [[ $C_OS == "Linux" ]]; then
-    C_FONT_DIR="$HOME/.local/share/fonts"
 else
-    echo "${C_ERROR}Unsupported operating system: $C_OS"  >&2
-    echo "${C_NOTE}Skipping font installation"
-    # Commented out because this is the last script run by chezmoi.
-    # echo ""
-    exit 3
+    C_FONT_DIR="$HOME/.local/share/fonts"
 fi
 
 echo "${C_INFO}Installing Meslo Nerd Fonts..."

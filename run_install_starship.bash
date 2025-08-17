@@ -59,7 +59,7 @@ compare_starship_versions() {
 ####[ Checks ]##############################################################################
 
 
-[[ "$(uname -s)" == "Darwin" ]] && exit 0
+[[ $(uname -s) == "Darwin" ]] && exit 0
 
 if [[ ! -t 0 ]]; then
     echo "${C_ERROR}Non-interactive environment detected" >&2

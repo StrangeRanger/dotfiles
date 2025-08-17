@@ -72,7 +72,7 @@ if [[ $C_OS == "Darwin" ]]; then
     else
         is_gui_environment=false
     fi
-elif [[ $C_OS == "Linux" ]]; then
+else
     if pgrep -x gdm >/dev/null \
         || pgrep -x lightdm >/dev/null \
         || pgrep -x sddm >/dev/null \
