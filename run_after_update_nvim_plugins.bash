@@ -2,6 +2,7 @@
 #
 # Automatically install and update vim-plug plugins. This script runs when Neovim
 # config files change OR the plugins haven't been updated within a certain period of time.
+# The update interval can changed by modifying $C_UPDATE_INTERVAL_DAYS.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
