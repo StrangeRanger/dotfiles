@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #
-# Install the cross-shell prompt, Starship, on Linux distributions.
+# Install the cross-shell prompt, Starship, on Debian/apt-based Linux distributions. On
+# macOS and Arch-based distros, Starship is installed and managed via their respective
+# package managers.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################

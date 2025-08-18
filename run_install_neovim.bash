@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 #
-# Install the Neovim text editor on Linux distributions.
-#
-# NOTES:
-#   - Neovim is installed by 'run_onchange_install_packages.bash.tmpl' on the following:
-#       - macOS
-#       - Arch based distributions
-#   - For other flavors of Linux, Neovim is installed without a package manager due to it
-#     often falling out of date fairly quickly, missing important features and bug fixes.
+# Install Neovim on Debian/apt-based Linux distributions. On macOS and Arch-based distros,
+# Neovim is installed and managed via their respective package managers.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
