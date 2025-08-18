@@ -8,7 +8,7 @@
 #   I only install a small set of fonts from the '.fonts' directory. You can modify
 #   the $C_FONT_FILES array to include any additional fonts you want to install.
 #
-# Hash of packages config file for change detection:
+# Hash of .font README file for change detection:
 # README.md hash: {{ include ".fonts/README.md" | sha256sum }}
 #
 ############################################################################################
