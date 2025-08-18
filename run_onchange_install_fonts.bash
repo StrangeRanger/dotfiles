@@ -8,9 +8,6 @@
 #   I only install a small set of fonts from the '.fonts' directory. You can modify
 #   the $C_FONT_FILES array to include any additional fonts you want to install.
 #
-# Comment Legend:
-#   - A.1.: Commented out because this is the last script run by chezmoi.
-#
 # Hash of packages config file for change detection:
 # packages.yaml hash: {{ include ".fonts/README.md" | sha256sum }}
 #
@@ -53,7 +50,7 @@ echo "${C_INFO}Running font installation script..."
 
 if [[ $(uname -s) == "Darwin" ]]; then
     echo "${C_INFO}Skipping font installation on macOS..."
-    # echo ""  # A.1.
+    echo ""
     exit 0
 fi
 
@@ -87,7 +84,11 @@ unset src dst src_hash dst_hash
 
 if [[ $needs_update == true ]]; then
     echo "${C_INFO}Copying font files to '$C_FONT_DST'..."
-    cp -- "${C_FONT_FILES[@]/#/$C_FONT_SRC/}" "$C_FONT_DST"
+    cp -- "${C_FONT_FILES[@]/#/$C_FONT_SRC/}" "$C_FONT_DST" || {
+        echo "${C_ERROR}Failed to copy font files" >&2
+        echo ""
+        exit 0
+    }
 
     if command -v fc-cache &>/dev/null; then
         echo "${C_INFO}Updating font cache..."
@@ -98,4 +99,4 @@ else
 fi
 
 echo "${C_SUCCESS}Font installation script completed"
-# echo ""  # A.1.
+echo ""
