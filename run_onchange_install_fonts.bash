@@ -18,8 +18,10 @@
 ####[ Global Variables ]####################################################################
 
 
-font_updated=false
+needs_update=false
 
+readonly C_FONT_SRC="$HOME/.local/share/chezmoi/.fonts"
+readonly C_FONT_DST="$HOME/.local/share/fonts"
 readonly C_FONT_FILES=("MesloLGMNerdFont-Bold.ttf"
     "MesloLGMNerdFont-BoldItalic.ttf"
     "MesloLGMNerdFont-Italic.ttf"
@@ -53,31 +55,40 @@ if [[ $(uname -s) == "Darwin" ]]; then
     echo "${C_INFO}Skipping font installation on macOS..."
     # echo ""  # A.1.
     exit 0
-else
-    C_FONT_DIR="$HOME/.local/share/fonts"
 fi
 
 ###
 ### [ Font Installation ]
 ###
 
-echo "${C_INFO}Installing Meslo Nerd Fonts..."
+echo "${C_INFO}Checking for missing or outdated Meslo Nerd Fonts..."
 
-[[ ! -d $C_FONT_DIR ]] && mkdir -p "$C_FONT_DIR"
+[[ ! -d $C_FONT_DST ]] && mkdir -p "$C_FONT_DST"
 
 ## Copy missing font files to the font directory.
 for file in "${C_FONT_FILES[@]}"; do
-    if [[ ! -f "$C_FONT_DIR/$file" ]]; then
-        echo "${C_WARNING}Missing font file: $file"
-        echo "${C_INFO}Copying '$file' to '$C_FONT_DIR'..."
-        cp "$HOME/.local/share/chezmoi/.fonts/$file" "$C_FONT_DIR" \
-            || echo "${C_ERROR}Failed to copy '$file' to '$C_FONT_DIR'" >&2
-        font_updated=true
+    src="$C_FONT_SRC/$file"
+    dst="$C_FONT_DST/$file"
+    if [[ ! -f "$dst" ]]; then
+        echo "${C_WARNING}Found missing font file: $file" >&2
+        needs_update=true
+        break
+    fi
+
+    src_hash=$(sha256sum "$src"); src_hash="${src_hash%% *}"
+    dst_hash=$(sha256sum "$dst"); dst_hash="${dst_hash%% *}"
+    if [[ "$src_hash" != "$dst_hash" ]]; then
+        echo "${C_WARNING}Font file '$file' differs from the installed version" >&2
+        needs_update=true
+        break
     fi
 done
+unset src dst src_hash dst_hash
 
-## Update the font cache if any fonts were copied.
-if [[ $font_updated == true ]]; then
+if [[ $needs_update == true ]]; then
+    echo "${C_INFO}Copying font files to '$C_FONT_DST'..."
+    cp -- "${C_FONT_FILES[@]/#/$C_FONT_SRC/}" "$C_FONT_DST"
+
     if command -v fc-cache &>/dev/null; then
         echo "${C_INFO}Updating font cache..."
         fc-cache -fv
