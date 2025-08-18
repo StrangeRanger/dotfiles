@@ -35,10 +35,10 @@ readonly C_NOTE="${C_CYAN}==>${C_NC} "
 
 case "$(uname -s)" in
     Darwin)
-        readonly C_TMPL_NAME=".zshrc_darwin.tmpl"
+        readonly C_TMPL_NAME="zshrc_darwin.tmpl"
         ;;
     Linux)
-        readonly C_TMPL_NAME=".zshrc_linux.tmpl"
+        readonly C_TMPL_NAME="zshrc_linux.tmpl"
         ;;
     *)
         echo "${C_ERROR}Unsupported OS: $(uname -s)"
