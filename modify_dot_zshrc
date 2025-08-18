@@ -7,11 +7,11 @@
   {{- .chezmoi.stdin -}}
 {{- else -}}
   {{- if eq .chezmoi.os "darwin" -}}
-    {{- $base := includeTemplate ".zshrc_darwin.tmpl" -}}
+    {{- $base := includeTemplate "zshrc_darwin.tmpl" -}}
     {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
     {{- $head -}}
   {{- else if eq .chezmoi.os "linux" -}}
-    {{- $base := includeTemplate ".zshrc_linux.tmpl" -}}
+    {{- $base := includeTemplate "zshrc_linux.tmpl" -}}
     {{- $head := $base | replaceAllRegex "(?s)\n?#### chezmoi:unmodified.*" "" -}}
     {{- $head -}}
   {{- else -}}
