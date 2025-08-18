@@ -38,6 +38,7 @@ packages:
         - "trash-cli"
         - "tree"
         - "uv"
+        - "wget"
         - "zsh"
       casks:
         - "font-meslo-lg-nerd-font"
