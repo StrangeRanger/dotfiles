@@ -4,6 +4,9 @@
 # config files change OR the plugins haven't been updated within a certain period of time.
 # The update interval can changed by modifying $C_UPDATE_INTERVAL_DAYS.
 #
+# Comment Legend:
+#   - A.1.: Commented out because this is the last script run by chezmoi.
+#
 ############################################################################################
 ####[ Global Variables ]####################################################################
 
@@ -78,7 +81,7 @@ echo "${C_INFO}Running Neovim plugin script..."
 if ! command -v nvim &>/dev/null; then
     echo "${C_WARNING}Neovim is not installed or not found in PATH"
     echo "${C_INFO}Skipping plugin check..."
-    echo ""
+    # echo ""  # A.1.
     exit 0
 fi
 
@@ -90,7 +93,7 @@ if [[ ! -f "$C_PLUG_PATH" ]]; then
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     then
         echo "${C_ERROR}Failed to install vim-plug" >&2
-        echo ""
+        # echo ""  # A.1.
         exit 0
     fi
     echo "${C_SUCCESS}vim-plug installed successfully"
@@ -116,7 +119,7 @@ Last plugin update: $(date +%Y-%m-%dT%H:%M:%S)
 EOF
     else
         echo "${C_ERROR}Failed to install/update Neovim plugins"
-        echo ""
+        # echo ""  # A.1.
         exit 0
     fi
 else
@@ -124,4 +127,4 @@ else
 fi
 
 echo "${C_SUCCESS}Neovim plugin script completed"
-echo ""
+# echo ""  # A.1.
