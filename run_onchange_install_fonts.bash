@@ -9,7 +9,7 @@
 #   the $C_FONT_FILES array to include any additional fonts you want to install.
 #
 # Hash of packages config file for change detection:
-# packages.yaml hash: {{ include ".fonts/README.md" | sha256sum }}
+# README.md hash: {{ include ".fonts/README.md" | sha256sum }}
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
