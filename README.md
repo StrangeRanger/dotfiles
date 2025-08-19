@@ -2,7 +2,7 @@
 
 [![Project Tracker](https://img.shields.io/badge/repo%20status-Project%20Tracker-lightgrey)](https://hthompson.dev/project-tracker#project-819556518)
 
-This repository contains my personal dotfiles and terminal configurations, managed with [chezmoi](https://www.chezmoi.io/). These configurations provide a consistent terminal environment across macOS and Linux systems.
+This repository contains my dotfiles, managed with [chezmoi](https://www.chezmoi.io/). The goal of this repository is to provide a consistent and reproducible terminal environment across **macOS** and **Linux** systems by capturing shell settings, editor preferences, and much more.
 
 <details>
 <summary><strong>Table of Contents</strong></summary>
@@ -10,20 +10,15 @@ This repository contains my personal dotfiles and terminal configurations, manag
 - [Dotfiles](#dotfiles)
   - [What's Included](#whats-included)
   - [Features](#features)
-    - [Cross-Platform Support](#cross-platform-support)
-    - [Automated Setup](#automated-setup)
-    - [Customizable](#customizable)
+    - [Cross‑Platform Support](#crossplatform-support)
+    - [Automated Installation](#automated-installation)
+    - [Automated Management](#automated-management)
+    - [External Resource Management](#external-resource-management)
   - [Prerequisites](#prerequisites)
-    - [Optional but Recommended](#optional-but-recommended)
   - [Quick Start](#quick-start)
-  - [What Happens During Installation](#what-happens-during-installation)
   - [Updating](#updating)
     - [Non-Interactive Behavior](#non-interactive-behavior)
-  - [Customization](#customization)
-    - [Key Customization Points](#key-customization-points)
-  - [Troubleshooting](#troubleshooting)
-    - [Common Issues](#common-issues)
-  - [Configuration Files](#configuration-files)
+  - [Troubleshooting and Q\&A](#troubleshooting-and-qa)
   - [Support and Issues](#support-and-issues)
   - [License](#license)
 
@@ -31,101 +26,84 @@ This repository contains my personal dotfiles and terminal configurations, manag
 
 ## What's Included
 
-- **Shell Configuration**: Zsh with [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and platform-specific customizations
-- **Prompt**: [Starship](https://starship.rs/) prompt with custom configurations and automated version management
-- **Editor**: [Neovim](https://github.com/neovim/neovim) configurations with [vim-plug](https://github.com/junegunn/vim-plug), automated plugin management, and automated version management on Linux systems
-- **Git**: Global Git configurations with [Delta](https://github.com/dandavison/delta) integration for enhanced diffs
-- **Font Management**: Automated [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) installation for terminal icons
-- **Package Management**: Cross-platform package installation and management with intelligent dependency handling
-- **Environment Detection**: Smart detection of GUI vs headless environments
-- **External Resource Management**: Templated external resource configuration with platform-specific tooling (fzf on Linux)
-- **Selective File Management**: Partial management of `~/.zshrc` (only the section above a marker line is managed; everything beneath is preserved across applies)
+- **Shell (Zsh)**: Platform‑specific configurations built on [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh). The templates, located in [.chezmoitemplates](.chezmoitemplates), define and source plugins, helper functions, and other settings.
+- **Shell Prompt**: Custom [Starship](https://github.com/starship/starship) [configurations](private_dot_config/starship.toml), which define icons for many languages and OSes.
+- **Editor / IDE**: [Neovim configurations](private_dot_config/nvim), with plugins managed by [vim-plug](https://github.com/junegunn/vim-plug).
+- **Version Control**: A Git configuration [template](dot_gitconfig.tmpl), with [Delta](https://github.com/dandavison/delta) integration.
+- **Fonts**: Meslo Nerd Font files under [.fonts](.fonts) to render terminal icons.
+- **Chezmoi Data & Templates**: Data files and external resource definitions in [.chezmoidata](.chezmoidata) and [.chezmoiexternal.toml.tmpl](.chezmoiexternal.toml.tmpl).
+- **Package Definitions**: [Package lists](.chezmoidata/packages.yaml) for different operating systems, used by the [package installer script](run_onchange_install_packages.bash.tmpl) to install CLI tools.
 
 ## Features
 
-### Cross-Platform Support
+### Cross‑Platform Support
 
-- Automatic OS detection for macOS and Linux
-- Platform-specific configurations and package installations
-- Conditional templating for different environments
+- **OS & package manager detection**: The installer scripts check the OS and choose the appropriate package manager. Unsupported systems are skipped or fail gracefully.
+- **GUI awareness**: A [precompute script](run_before_01_precompute.bash.tmpl) examines the environment and caches whether a GUI session is present. Other scripts use this flag to enable or disable desktop‑specific settings.
+- **Automatic template selection**: When applying the Zsh configurations, the system automatically selects the appropriate template for Linux or macOS.
 
-### Automated Setup
 
-- Font installation (Nerd Fonts for terminal icons)
-- Package installation based on your system (Homebrew, pacman, apt)
-- Starship prompt installation and configuration with version checking
-- Neovim setup with vim-plug, automated plugin updates, and automated version management on non-Arch Linux systems
-- Oh My Zsh installation with useful plugins
-- Git Delta setup for enhanced diff viewing
-- External tool installation (fzf on Linux systems)
-- Environment-aware configurations (GUI vs headless)
-- Safe drift detection & confirmation prompt for the managed head of `~/.zshrc`
+### Automated Installation
 
-### Customizable
+- **Packages**: The [package installer script](run_onchange_install_packages.bash.tmpl) reads [packages.yaml](.chezmoidata/packages.yaml) and installs both general and OS‑specific CLI tools via pacman, apt, or Homebrew. Refer to [External Resource Management](#external-resource-management) for additional software not handled by a package manager.
+- **Neovim & Starship**: On Debian-based distros, dedicated scripts ([Neovim](run_install_neovim.bash) & [Starship](run_install_starship.bash)) download the latest releases of Neovim and Starship from GitHub — package manager versions often lag behind. They compare these with the currently installed versions and install them if they're newer. On macOS and Arch, these tools are managed by a package manager.
+- **Nerd fonts**: A [font installer script](run_onchange_install_fonts.bash) checks whether Meslo Nerd Font files are missing or outdated by comparing file hashes, then copies updated fonts into `~/.local/share/fonts` and refreshes the font cache. macOS users get their fonts via a Homebrew cask.
+- **Default shell**: A [default shell script](run_once_set_default_shell.bash) sets Zsh as the default shell for the current user. This script only runs once, unless executed manually.
 
-The configuration uses chezmoi templates, making it easy to:
-- Add personal customizations
-- Handle different machine configurations
-- Manage secrets and private configurations
+### Automated Management
+
+- **Neovim plugin maintenance**: A [plugin‑update script](run_after_update_nvim_plugins.bash) runs whenever your Neovim configurations change or after a set amount of time has passed. It installs `vim‑plug` if it's missing and runs `PlugInstall`, `PlugUpdate`, and `TSUpdate` in headless mode to install and update plugins and tree-sitters.
+- **Safe shell updates**: Before overwriting your Zsh configurations, a [drift‑detection script](run_before_02_zshrc_drift_detection.bash) extracts the managed portion of `~/.zshrc`, compares it with the current template, shows a diff, and prompts you to apply, skip, or cancel the changes.
+  - **Managed portion**: The drift-detection script ignores all changes below the `chezmoi:unmodified` comment at the bottom of the `.zshrc` file. This section ensures configurations can be added without them being tracked or overwritten during updates.
+
+### External Resource Management
+
+- **Automated downloads**: The [.chezmoiexternal.toml.tmpl](.chezmoiexternal.toml.tmpl) file tells chezmoi to install and cache third‑party tools during `chezmoi apply`. It downloads `vim‑plug`, Oh My Zsh, zsh plugins, and much more.
+- **Scheduled refreshes**: Each external resource defines a refresh period of 168 hours (one week), ensuring that these tools stay up to date without manual intervention.
+
+<!-- ### Customizations
+
+To be added later -->
 
 ## Prerequisites
 
+These dotfiles are made for **macOS and Linux only**. Before applying them, ensure you meet the following prerequisites:
+
 - **[chezmoi](https://www.chezmoi.io/)** for dotfiles management
+- **Homebrew** (on macOS)
 - **Git** (version 2.0+)
-- **Zsh** (recommended shell, will be configured automatically)
-- **Bash** (version 3.0+)
+- **Bash** (version 3.2+)
 - **Internet connection** for downloading external resources
 - **Administrative privileges** (for package installation on Linux)
 
-### Optional but Recommended
-- [1Password](https://1password.com/) for Git commit signing
-- Terminal with Nerd Font support for icons
-
 ## Quick Start
 
-1. **Install chezmoi** (if not already installed):
-   ```bash
-   # macOS
-   brew install chezmoi
+1. **[Install chezmoi](https://www.chezmoi.io/install/)** (if not already installed):
+    ```bash
+    # macOS
+    brew install chezmoi
 
-   # Linux
-   sh -c "$(curl -fsLS get.chezmoi.io)"
-   ```
+    # Linux
+    sh -c "$(curl -fsLS get.chezmoi.io)"
+    ```
 
 2. **Initialize with this repository**:
-   ```bash
-   chezmoi init https://github.com/StrangeRanger/dotfiles.git
-   ```
+    ```bash
+    chezmoi init https://github.com/StrangeRanger/dotfiles.git
+    ```
 
 3. **Preview changes** (optional):
-   ```bash
-   chezmoi diff
-   ```
+    ```bash
+    chezmoi diff
+    ```
 
 4. **Apply the dotfiles**:
-   ```bash
-   chezmoi apply
-   ```
+    ```bash
+    chezmoi apply
+    ```
 
-   > [!NOTE]
-   > The first run will install packages, fonts, and configure your environment. This may take a minute or two and will require administrative privileges on Linux systems.
-
-## What Happens During Installation
-
-The setup process will automatically:
-
-1. **Install Oh My Zsh** and useful plugins (autosuggestions, syntax highlighting, etc.)
-2. **Install Starship prompt** and configure it with `private_dot_config/starship.toml` (includes automated version management on Linux)
-3. **Install packages** based on your system (see `.chezmoidata/packages.yaml`)
-4. **Install Nerd Fonts** for terminal icons and better appearance
-5. **Configure Neovim** with vim-plug and install/update plugins (includes automated version management on Linux)
-6. **Set up Git** with Delta for enhanced diff viewing (if available)
-7. **Install external tools** like fzf (on Linux systems) for enhanced functionality
-8. **Configure shell environment** with platform-specific optimizations
-9. **Manage only the head of `~/.zshrc`** – a `modify_` template and a pre-apply hook ensure:
-    - The portion of the file above the marker line `#### chezmoi:unmodified` is regenerated from templates.
-    - Everything below that marker (locally appended or tool-managed content) is left untouched.
-    - If the current head has drifted, you are shown a colorized diff and can proceed, skip just that change, or cancel the apply.
+    > [!NOTE]
+    > The first run will install packages, fonts and configure your environment. This may take a minute or two and will require administrative privileges on Linux systems.
 
 ## Updating
 
@@ -135,113 +113,121 @@ To update your dotfiles:
 chezmoi update
 ```
 
-This will pull the latest changes from the repository and apply them to your system.
-
-During update/apply you may see a prompt like:
+During the update/apply process, you may see a prompt like:
 
 ```
-Detected changes in ~/.zshrc above '#### chezmoi:unmodified'.
+Detected changes in '~/.zshrc' above '#### chezmoi:unmodified'.
 --- current (head) vs rendered (head) diff ---
 <colorized diff>
-Proceed with 'chezmoi apply'? [y]es / [S]kip / [c]ancel apply:
+Proceed with changes? [y]es / [S]kip / [c]ancel apply:
 ```
 
 **Options**:
-- `y` – Apply the updated managed head
-- `s` – Skip modifying `~/.zshrc` this run (a skip flag file is created so the modify template leaves it as-is)
-- `c` – Abort the entire apply
+- `y`: Apply the changes
+- `s`: Skip modifying `~/.zshrc` **(Default)**
+- `c`: Abort the entire apply
 
-**Default / no input**:
-- Pressing Enter (blank input) or running non-interactively defaults to `s` (skip). The rest of the apply continues as normal.
-
-**Skip flag path**:
-- `$XDG_RUNTIME_DIR/chezmoi/skip-dot-zshrc` (fallback: `~/.cache/chezmoi/skip-dot-zshrc`). It is cleared automatically on the next run.
+**Skip flag**:
+- When skipping `~/.zshrc` modifications, a skip flag file is created so the modifying template leaves it as-is.
+- The flag is placed at `$XDG_RUNTIME_DIR/chezmoi/skip-dot-zshrc` or `~/.cache/chezmoi/skip-dot-zshrc`. It is removed automatically on the next run.
 
 ### Non-Interactive Behavior
 
-Some steps are intentionally skipped when no TTY is available (e.g. in CI or automated provisioning) to avoid hanging on privilege prompts:
+Some steps are intentionally skipped when no TTY is available (e.g., in CI or automated provisioning) to avoid hanging on prompts:
 
-- **`.zshrc` head drift**: Defaults to skip (managed head left untouched) and writes the skip flag. Re-run interactively to apply the change.
-- **Package installation**: Skipped with a notice if user input would be required (Linux privilege escalation) and stdin is not a TTY.
-- **Starship installation (when not root)**: Skipped if the environment is not interactive.
+- `.zshrc` head drift
+- Package installation
+- Starship installation
+- Neovim installation
 
 These safeguards ensure unattended runs complete safely without partial or unintended configuration changes.
 
-## Customization
+## Troubleshooting and Q&A
 
-To customize these dotfiles for your own use:
+<details>
+<summary><strong>Permission denied during package installation</strong></summary>
 
-1. **Fork this repository**
-2. **Modify the configuration files** as needed:
-   - Edit `dot_gitconfig.tmpl` to change Git user information
-   - Update `.chezmoidata/packages.yaml` to add/remove packages
-   - Customize `private_dot_config/starship.toml` for prompt appearance
-   - Modify Neovim configs in `private_dot_config/nvim/`
-3. **Update the chezmoi source**:
-   ```bash
-   chezmoi init https://github.com/YOUR_USERNAME/dotfiles.git
-   ```
+> ```bash
+> # Make sure you have sudo privileges on Linux.
+> sudo -v
+> ```
 
-### Key Customization Points
+</details>
 
-- **Git Configuration**: Update user name, email, and signing key in `dot_gitconfig.tmpl`
-- **Package Lists**: Modify packages in `.chezmoidata/packages.yaml`
-- **Shell Aliases**: Add custom aliases in the appropriate `.zshrc_*.tmpl` files
-- **Starship Prompt**: Customize appearance in `private_dot_config/starship.toml`
-- **`~/.zshrc` Tail Section**: Add or modify personal/tool-managed commands *below* the marker `#### chezmoi:unmodified`; they will be preserved.
-- **Marker Line**: If you change the marker text, update both `modify_dot_zshrc` and `run_before_02_modify_dot_zshrc.bash.tmpl`.
-- **Skip Behavior**: To force a skip non-interactively, create the skip flag file noted above before running `chezmoi apply`.
+<details>
+<summary><strong>Package installation being skipped</strong></summary>
 
-## Troubleshooting
+> - Non-interactive environments (like CI) skip package installation by default
+> - Chezmoi attempts to install packages only once, until the installer script or the packages list changes
+> - If you need to rerun the installer again, you can clear chezmoi's `run_onchange` state:
+>   ```bash
+>   chezmoi state delete-bucket --bucket=entryState
+>   chezmoi apply
+>   ```
 
-### Common Issues
+</details>
 
-**Permission denied during package installation**
-```bash
-# Make sure you have sudo privileges on Linux.
-sudo -v
-```
+<details>
+<summary><strong>Fonts not appearing correctly</strong></summary>
 
-**Fonts not appearing correctly**
-- Ensure your terminal supports Nerd Fonts
-- Restart your terminal after font installation
+> - Ensure your terminal supports Nerd Fonts
+> - Reinitialize font cache with `fc-cache -fv`
+> - Restart your terminal after font installation
 
-**Neovim plugins not loading**
-```bash
-# Manually update plugins.
-nvim +PlugInstall +PlugUpdate +qall
-```
+</details>
 
-**Neovim installation issues on Linux**
-- The script automatically detects your architecture (x86_64/arm64)
-- Ensure you have administrative privileges for installation
-- Check that curl is available for downloading the latest release
+<details>
+<summary><strong>Neovim plugins not loading</strong></summary>
 
-**Starship prompt not showing**
-- Verify Starship is installed: `starship --version`
-- The installation script checks for the latest version automatically
-- Check if Starship is initialized in your shell config
+> - Make sure `vim-plug` is installed
+> - Manually install/update plugins
+>   ```bash
+>   nvim +PlugInstall +PlugUpdate +qall
+>   ```
 
-**Git commit signing issues**
-- Ensure 1Password CLI is installed and configured
-- Verify SSH key is added to your Git provider
+</details>
 
-## Configuration Files
+<details>
+<summary><strong>Neovim installation issues on Linux</strong></summary>
+
+> - Neovim only supports x86_64 and arm64 architectures
+> - Ensure you have administrative privileges for installation
+> - Check that curl is available for downloading the latest release
+
+</details>
+
+<details>
+<summary><strong>Starship prompt not showing</strong></summary>
+
+> - Verify Starship is installed: `starship --version`
+> - Check if Starship is initialized in your shell config
+
+</details>
+
+<details>
+<summary><strong>Neovim plugins not updating automatically</strong></summary>
+
+> - The system automatically updates plugins every 7 days or when Neovim configs change
+> - To force an update: `nvim +PlugInstall +PlugUpdate +qall`
+
+</details>
+
+<!-- ## Configuration Files
 
 | File/Directory | Purpose |
-|---|---|
-| `.chezmoidata/packages.yaml` | Package definitions for automatic installation across platforms |
-| `.chezmoiexternal.toml.tmpl` | Templated external resources (Oh My Zsh, plugins, vim-plug, platform-specific tools) |
-| `.chezmoiignore` | Files to exclude from chezmoi management |
-| `.chezmoitemplates/.zshrc_{darwin,linux}.tmpl` | OS-specific Zsh templates |
-| `private_dot_config/starship.toml` | Starship prompt configuration |
-| `private_dot_config/nvim/` | Neovim editor configuration and plugins |
-| `dot_gitconfig.tmpl` | Global Git configuration with Delta integration |
-| `modify_dot_zshrc` | `modify_` template merging managed head with preserved tail below marker |
-| `run_before_02_modify_dot_zshrc.bash` | Pre-apply drift check & prompt for `~/.zshrc` head with enhanced template rendering |
-| `run_install_neovim.bash` | Neovim installation script for Linux distributions with automated version management |
-| `run_install_starship.bash` | Starship installation script with version comparison and Linux-specific handling |
-| `run_*.bash.tmpl` | Setup and maintenance scripts (packages, font installation, etc.) |
+| -------------- | ------- |
+| `.chezmoidata/packages.yaml` | Package definitions for automatic installation across platforms. |
+| `.chezmoiexternal.toml.tmpl` | Templated external resources (e.g. Oh My Zsh, plugins, vim‑plug, Copilot, platform‑specific tools). |
+| `.chezmoiignore` | Files to exclude from chezmoi management. |
+| `.chezmoitemplates/.zshrc_{darwin,linux}.tmpl` | OS‑specific Zsh templates defining environment variables, aliases and functions. |
+| `private_dot_config/starship.toml` | Starship prompt configuration, including Nerd Font icons and color settings. |
+| `private_dot_config/nvim/` | Neovim editor configuration and plugin management. |
+| `dot_gitconfig.tmpl` | Global Git configuration with Delta integration. |
+| `modify_dot_zshrc` | Template merging the managed head of `~/.zshrc` with the unmodified tail. |
+| `run_before_02_modify_dot_zshrc.bash` | Pre‑apply hook for `.zshrc` drift detection and interactive confirmation. |
+| `run_install_neovim.bash` | Neovim installation script for Linux distributions with automated version management. |
+| `run_install_starship.bash` | Starship installation script with version comparison and Linux‑specific handling. |
+| `run_onchange_install_packages.bash.tmpl` | Setup script for installing packages and fonts when `packages.yaml` changes. | -->
 
 ## Support and Issues
 
