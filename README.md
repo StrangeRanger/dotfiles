@@ -19,6 +19,7 @@ This repository contains my dotfiles, managed with [chezmoi](https://www.chezmo
   - [Updating](#updating)
     - [Non-Interactive Behavior](#non-interactive-behavior)
   - [Troubleshooting and Q\&A](#troubleshooting-and-qa)
+  - [Configuration Files](#configuration-files)
   - [Support and Issues](#support-and-issues)
   - [License](#license)
 
@@ -58,7 +59,7 @@ This repository contains my dotfiles, managed with [chezmoi](https://www.chezmo
 
 ### External Resource Management
 
-- **Automated downloads**: The [.chezmoiexternal.toml.tmpl](.chezmoiexternal.toml.tmpl) file tells chezmoi to install and cache third‑party tools during `chezmoi apply`. It downloads `vim‑plug`, Oh My Zsh, zsh plugins, and much more.
+- **Automated downloads**: The [.chezmoiexternal.toml.tmpl](.chezmoiexternal.toml.tmpl) file tells chezmoi to fetch and cache third‑party tools during `chezmoi apply`. It downloads `vim‑plug`, Oh My Zsh, zsh plugins, and much more.
 - **Scheduled refreshes**: Each external resource defines a refresh period of 168 hours (one week), ensuring that these tools stay up to date without manual intervention.
 
 <!-- ### Customizations
@@ -212,22 +213,28 @@ These safeguards ensure unattended runs complete safely without partial or unint
 
 </details>
 
-<!-- ## Configuration Files
+## Configuration Files
 
 | File/Directory | Purpose |
-| -------------- | ------- |
-| `.chezmoidata/packages.yaml` | Package definitions for automatic installation across platforms. |
-| `.chezmoiexternal.toml.tmpl` | Templated external resources (e.g. Oh My Zsh, plugins, vim‑plug, Copilot, platform‑specific tools). |
-| `.chezmoiignore` | Files to exclude from chezmoi management. |
-| `.chezmoitemplates/.zshrc_{darwin,linux}.tmpl` | OS‑specific Zsh templates defining environment variables, aliases and functions. |
-| `private_dot_config/starship.toml` | Starship prompt configuration, including Nerd Font icons and color settings. |
-| `private_dot_config/nvim/` | Neovim editor configuration and plugin management. |
-| `dot_gitconfig.tmpl` | Global Git configuration with Delta integration. |
-| `modify_dot_zshrc` | Template merging the managed head of `~/.zshrc` with the unmodified tail. |
-| `run_before_02_modify_dot_zshrc.bash` | Pre‑apply hook for `.zshrc` drift detection and interactive confirmation. |
-| `run_install_neovim.bash` | Neovim installation script for Linux distributions with automated version management. |
-| `run_install_starship.bash` | Starship installation script with version comparison and Linux‑specific handling. |
-| `run_onchange_install_packages.bash.tmpl` | Setup script for installing packages and fonts when `packages.yaml` changes. | -->
+| --- | --- |
+| `.chezmoidata/packages.yaml` | Package definitions for automatic installation across platforms (general and OS‑specific packages). |
+| `.chezmoiexternal.toml.tmpl` | Defines third‑party resources for Chezmoi to fetch, such as vim‑plug, Copilot Vim, Oh My Zsh, zsh plugins and a prebuilt fzf binary, with refresh schedules. |
+| `.chezmoiignore` | Lists files to exclude from chezmoi management. |
+| `.chezmoitemplates/zshrc_darwin.tmpl` and `zshrc_linux.tmpl` | OS‑specific Zsh templates defining environment variables, aliases and helper functions. |
+| `private_dot_config/starship.toml` | Starship prompt configuration, including Nerd‑Font icons and module settings. |
+| `private_dot_config/nvim/` | Neovim configuration directory (`init.vim`, `second_init.lua`) with plugin management. |
+| `dot_gitconfig.tmpl` | Global Git configuration with Delta integration for enhanced diffs. |
+| `modify_dot_zshrc` | Template that merges the managed head of `~/.zshrc` with the unmodified tail. |
+| `run_before_02_zshrc_drift_detection.bash` | Pre‑apply hook that detects drift in `~/.zshrc` above the `#### chezmoi:unmodified` marker, shows a diff, and prompts to apply, skip or cancel. |
+| `run_before_01_precompute.bash.tmpl` | Precompute script executed before apply; checks for supported OS, detects `git‑delta` and whether a GUI session is present, then writes results to `.precomputed_data.json`. |
+| `run_after_update_nvim_plugins.bash` | Installs `vim‑plug` if missing and updates Neovim plugins and tree‑sitter parsers when configs change or after a set interval. |
+| `run_onchange_install_packages.bash.tmpl` | Script that reads `packages.yaml` and installs general and OS‑specific CLI tools via pacman, apt, or Homebrew. |
+| `run_onchange_install_fonts.bash` | Checks for missing or outdated Meslo Nerd Font files on Linux, installs them, and refreshes the font cache; skipped on macOS. |
+| `run_install_neovim.bash` | Installs the latest Neovim release on Debian‑based distributions when the package manager version lags behind. |
+| `run_install_starship.bash` | Installs the latest Starship release on Debian‑based distributions, skipping macOS and Arch. |
+| `run_once_set_default_shell.bash` | One‑time script that sets Zsh as the default shell for the current user, ensuring it’s listed in `/etc/shells`. |
+
+
 
 ## Support and Issues
 
