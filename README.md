@@ -158,8 +158,8 @@ These safeguards ensure unattended runs complete safely without partial or unint
 <details>
 <summary><strong>Package installation being skipped</strong></summary>
 
-> - Non-interactive environments (like CI) skip package installation by default
-> - Chezmoi attempts to install packages only once, until the installer script or the packages list changes
+> - Non-interactive environments (like CI) skip package installation by default.
+> - Chezmoi attempts to install packages only once, until the installer script or the packages list changes.
 > - If you need to rerun the installer again, you can clear chezmoi's `run_onchange` state:
 >   ```bash
 >   chezmoi state delete-bucket --bucket=entryState
@@ -171,17 +171,17 @@ These safeguards ensure unattended runs complete safely without partial or unint
 <details>
 <summary><strong>Fonts not appearing correctly</strong></summary>
 
-> - Ensure your terminal supports Nerd Fonts
-> - Reinitialize font cache with `fc-cache -fv`
-> - Restart your terminal after font installation
+> - Ensure your terminal supports Nerd Fonts.
+> - Reinitialize font cache with `fc-cache -fv`.
+> - Restart your terminal after font installation.
 
 </details>
 
 <details>
 <summary><strong>Neovim plugins not loading</strong></summary>
 
-> - Make sure `vim-plug` is installed
-> - Manually install/update plugins
+> - Make sure `vim-plug` is installed.
+> - Manually install/update plugins:
 >   ```bash
 >   nvim +PlugInstall +PlugUpdate +qall
 >   ```
@@ -191,9 +191,9 @@ These safeguards ensure unattended runs complete safely without partial or unint
 <details>
 <summary><strong>Neovim installation issues on Linux</strong></summary>
 
-> - Neovim only supports x86_64 and arm64 architectures
-> - Ensure you have administrative privileges for installation
-> - Check that curl is available for downloading the latest release
+> - Neovim only supports x86_64 and arm64 architectures.
+> - Ensure you have administrative privileges for installation.
+> - Check that curl is available for downloading the latest release.
 
 </details>
 
@@ -201,14 +201,14 @@ These safeguards ensure unattended runs complete safely without partial or unint
 <summary><strong>Starship prompt not showing</strong></summary>
 
 > - Verify Starship is installed: `starship --version`
-> - Check if Starship is initialized in your shell config
+> - Check if Starship is initialized in your shell config.
 
 </details>
 
 <details>
 <summary><strong>Neovim plugins not updating automatically</strong></summary>
 
-> - The system automatically updates plugins every 7 days or when Neovim configs change
+> - The system automatically updates plugins every 7 days or when Neovim configs change.
 > - To force an update: `nvim +PlugInstall +PlugUpdate +qall`
 
 </details>
@@ -233,8 +233,6 @@ These safeguards ensure unattended runs complete safely without partial or unint
 | `run_install_neovim.bash` | Installs the latest Neovim release on Debian‑based distributions when the package manager version lags behind. |
 | `run_install_starship.bash` | Installs the latest Starship release on Debian‑based distributions, skipping macOS and Arch. |
 | `run_once_set_default_shell.bash` | One‑time script that sets Zsh as the default shell for the current user, ensuring it’s listed in `/etc/shells`. |
-
-
 
 ## Support and Issues
 
