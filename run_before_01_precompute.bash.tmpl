@@ -60,6 +60,13 @@ else
     is_delta_installed=false
 fi
 
+echo "${C_INFO}Checking if Homebrew 'ruby' is installed..."
+if [[ $C_OS == "Darwin" ]] && brew list --versions ruby &>/dev/null; then
+    is_homebrew_ruby_installed=true
+else
+    is_homebrew_ruby_installed=false
+fi
+
 ###
 ### [ GUI/Headless Environment Check ]
 ###
@@ -96,6 +103,7 @@ echo "${C_INFO}Writing precomputed data to file..."
 cat > "${C_CHEZMOI_DIR}/.precomputed_data.json" <<EOF
 {
     "isDeltaInstalled": $is_delta_installed,
+    "isHomebrewRubyInstalled": $is_homebrew_ruby_installed,
     "isGUIEnvironment": $is_gui_environment
 }
 EOF
