@@ -183,10 +183,9 @@ hb_prefix="$(brew --prefix 2>/dev/null || echo "/opt/homebrew")"
 #   - $hb_prefix/opt/trash-cli/bin: Homebrew installed trash-cli binary.
 #   - $HOME/.local/bin: User installed binaries.
 #   - $HOME/.cargo/bin: Rust installed binaries.
-export PATH="$hb_prefix/opt/trash-cli/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export PATH="$hb_prefix/opt/trash-cli/bin:{{ if $data.isHomebrewRubyInstalled }}$hb_prefix/opt/ruby/bin:{{ end }}$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 {{ if $data.isHomebrewRubyInstalled -}}
-export PATH="$hb_prefix/opt/ruby/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 {{- end }}
