@@ -43,4 +43,3 @@ packages:
       casks:
         - "font-meslo-lg-nerd-font"
       taps:
-        - "homebrew/command-not-found"
