@@ -37,6 +37,7 @@ packages:
         - "starship"
         - "trash-cli"
         - "tree"
+        - "tree-sitter-cli"
         - "uv"
         - "wget"
         - "zsh"
