@@ -25,12 +25,12 @@ C_TMP_DIR="$(mktemp -d)"
 readonly C_TMP_DIR
 
 case $(uname -m) in
-    x86_64)  readonly C_ARCH="x86_64" ;;
+    x86_64)  readonly C_ARCH="x64" ;;
     aarch64) readonly C_ARCH="arm64" ;;
     *)       readonly C_ARCH="unknown" ;;
 esac
 
-readonly C_TREE_SITTER_URL="https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-${C_ARCH}.tar.gz"
+readonly C_TREE_SITTER_URL="https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-${C_ARCH}.gz"
 
 
 ####[ Functions ]###########################################################################
@@ -141,10 +141,11 @@ curl -LO "$C_TREE_SITTER_URL" || {
 }
 
 sudo rm -rf /opt/tree-sitter
-sudo mkdir -p /opt/tree-sitter
-sudo tar -C /opt/tree-sitter --strip-components=1 -xzf "tree-sitter-linux-${C_ARCH}.tar.gz"
-rm "tree-sitter-linux-${C_ARCH}.tar.gz"
+sudo mkdir -p /opt/tree-sitter/bin
+sudo gzip -d "tree-sitter-linux-${C_ARCH}.gz"
+sudo mv "tree-sitter-linux-${C_ARCH}" /opt/tree-sitter/bin/tree-sitter
 
+sudo chmod /opt/tree-sitter/bin/tree-sitter
 sudo chown -R root:root /opt/tree-sitter
 
 echo "${C_SUCCESS}tree-sitter installation script completed"
