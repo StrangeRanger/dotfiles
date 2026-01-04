@@ -145,7 +145,7 @@ sudo mkdir -p /opt/tree-sitter/bin
 sudo gzip -d "tree-sitter-linux-${C_ARCH}.gz"
 sudo mv "tree-sitter-linux-${C_ARCH}" /opt/tree-sitter/bin/tree-sitter
 
-sudo chmod /opt/tree-sitter/bin/tree-sitter
+sudo chmod 0755 /opt/tree-sitter/bin/tree-sitter
 sudo chown -R root:root /opt/tree-sitter
 
 echo "${C_SUCCESS}tree-sitter installation script completed"
