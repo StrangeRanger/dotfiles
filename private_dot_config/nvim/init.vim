@@ -1,8 +1,8 @@
 """"[ vim-plug Configurations ]"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TODO: Consider adding 'nvim-lspconfig' plugin.
 " TODO: Consider adding a dedicated completion plugin such as 'hrsh7th/nvim-cmp'.
+" TODO: Consider migrating from vim-plug to LazyVim.
 " TODO: Review existing plugins for further configuration options and optimizations.
-
 
 call plug#begin(stdpath('data') . '/plugged')
 " Make sure you use single quotes.
