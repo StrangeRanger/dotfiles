@@ -69,13 +69,13 @@ echo "${C_INFO}Running Starship installation script..."
 ###
 
 if [[ $(uname -s) == "Darwin" ]]; then
-    echo "${C_INFO}Skipping Neovim installation on macOS..."
+    echo "${C_INFO}Skipping Starship installation on macOS..."
     echo ""
     exit 0
 fi
 
 if command -v pacman >/dev/null; then
-    echo "${C_INFO}Skipping Neovim installation on Arch based distributions..."
+    echo "${C_INFO}Skipping Starship installation on Arch based distributions..."
     echo ""
     exit 0
 fi
