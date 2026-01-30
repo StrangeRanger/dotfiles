@@ -15,6 +15,7 @@ packages:
       - "neovim"
       - "starship"
       - "trash-cli"
+      - "tree-sitter"
     apt:
       - "apt-listchanges"
       - "command-not-found"
