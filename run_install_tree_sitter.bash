@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Install tree-sitter on Debian/apt-based Linux distributions. On macOS and Arch-based distros,
-# tree-sitter is installed and managed via their respective package managers.
+# Install tree-sitter on Debian/apt-based Linux distributions. On macOS and Arch-based
+# distros, tree-sitter is installed and managed via their respective package managers.
 #
 ############################################################################################
 ####[ Global Variables ]####################################################################
