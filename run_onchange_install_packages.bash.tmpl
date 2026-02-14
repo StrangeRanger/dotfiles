@@ -123,6 +123,22 @@ case "$C_OS" in
             {{- range .packages.linux.apt }}
             install_from_cache "{{ . }}" sudo apt-get install -y "{{ . }}"
             {{- end }}
+        elif command -v dnf >/dev/null; then
+            echo "${C_INFO}Updating package metadata..."
+            sudo dnf makecache
+
+            echo "${C_INFO}Retrieving installed packages..."
+            installed_packages="$(rpm -qa --qf '%{NAME}\n')"
+
+            echo "${C_INFO}Installing general packages..."
+            {{- range .packages.linux.general }}
+            install_from_cache "{{ . }}" sudo dnf install -y "{{ . }}"
+            {{- end }}
+        else
+            echo "${C_ERROR}No supported Linux package manager found (pacman, apt, dnf)" >&2
+            echo "${C_INFO}Skipping package installation..."
+            echo ""
+            exit 1
         fi
         ;;
 
