@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#
+# Remove the Copilot plugin when it is disabled in chezmoi data so Neovim does not load it.
+#
+############################################################################################
+####[ Global Variables ]####################################################################
+
+
+C_GREEN="$(printf '\033[0;32m')"
+C_BLUE="$(printf '\033[0;34m')"
+C_NC="$(printf '\033[0m')"
+readonly C_GREEN C_BLUE C_NC
+
+readonly C_SUCCESS="${C_GREEN}==>${C_NC} "
+readonly C_INFO="${C_BLUE}==>${C_NC} "
+
+readonly C_COPILOT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/pack/github/start/copilot.vim"
+
+
+####[ Main ]################################################################################
+
+
+echo "${C_INFO}Running Neovim Copilot management script..."
+
+{{- if .features.nvim.copilot }}
+echo "${C_INFO}Copilot is enabled"
+{{- else }}
+if [[ -d "$C_COPILOT_DIR" ]]; then
+    rm -rf "$C_COPILOT_DIR"
+    echo "${C_SUCCESS}Removed Neovim Copilot plugin directory"
+else
+    echo "${C_INFO}Copilot plugin directory is already absent"
+fi
+{{- end }}
+
+echo ""

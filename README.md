@@ -61,6 +61,7 @@ This repository contains my dotfiles, managed with [chezmoi](https://www.chezmo
 
 - **Automated downloads**: The [.chezmoiexternal.toml.tmpl](.chezmoiexternal.toml.tmpl) file tells chezmoi to fetch and cache third‑party tools during `chezmoi apply`. It downloads `vim‑plug`, Oh My Zsh, zsh plugins, and much more.
 - **Scheduled refreshes**: Each external resource defines a refresh period of 168 hours (one week), ensuring that these tools stay up to date without manual intervention.
+- **Machine-specific feature flags**: You can override entries from `.chezmoidata` in your local chezmoi config to enable or disable optional components per machine, such as Neovim Copilot.
 
 <!-- ### Customizations
 
@@ -185,6 +186,24 @@ These safeguards ensure unattended runs complete safely without partial or unint
 >   ```bash
 >   nvim +PlugInstall +PlugUpdate +qall
 >   ```
+
+</details>
+
+<details>
+<summary><strong>Enable Neovim Copilot on a specific machine</strong></summary>
+
+> Copilot is disabled by default. To enable it on a specific machine, add this to `~/.config/chezmoi/chezmoi.toml`:
+> ```toml
+> [data.features.nvim]
+> copilot = true
+> ```
+>
+> Then run:
+> ```bash
+> chezmoi apply
+> ```
+>
+> When disabled, chezmoi does not download `copilot.vim`, and any existing installed copy in Neovim's `pack/*/start` directory is removed so it will not be auto-loaded.
 
 </details>
 
