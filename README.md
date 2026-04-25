@@ -190,12 +190,13 @@ These safeguards ensure unattended runs complete safely without partial or unint
 </details>
 
 <details>
-<summary><strong>Enable Neovim Copilot on a specific machine</strong></summary>
+<summary><strong>Override feature flags on a specific machine</strong></summary>
 
-> Copilot is disabled by default. To enable it on a specific machine, add this to `~/.config/chezmoi/chezmoi.toml`:
-> ```toml
-> [data.features.nvim]
-> copilot = true
+> Defaults live in `.chezmoidata/features.yaml`. To override feature flags locally without committing those changes, copy `.chezmoidata/features.local.example.yaml` to `.chezmoidata/features.local.yaml` and edit it:
+> ```yaml
+> features:
+>   nvim:
+>     copilot: false
 > ```
 >
 > Then run:

@@ -3,3 +3,6 @@
 
 # Generated from run_before_apply or run_after_apply scripts.
 .precomputed_data.json
+
+# Machine-local chezmoi data overrides.
+.chezmoidata/features.local.yaml

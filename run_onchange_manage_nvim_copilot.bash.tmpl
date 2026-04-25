@@ -22,7 +22,12 @@ readonly C_COPILOT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/pack/github/start
 
 echo "${C_INFO}Running Neovim Copilot management script..."
 
-{{- if .features.nvim.copilot }}
+{{- $features := .features -}}
+{{- $localFeaturesPath := joinPath .chezmoi.sourceDir ".chezmoidata/features.local.yaml" -}}
+{{- if stat $localFeaturesPath -}}
+{{- $features = (include ".chezmoidata/features.local.yaml" | fromYaml).features -}}
+{{- end -}}
+{{- if $features.nvim.copilot }}
 echo "${C_INFO}Copilot is enabled"
 {{- else }}
 if [[ -d "$C_COPILOT_DIR" ]]; then
