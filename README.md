@@ -199,7 +199,7 @@ These safeguards ensure unattended runs complete safely without partial or unint
 >     copilot: false
 > ```
 >
-> Then run:
+> After creating or changing `.chezmoidata/features.local.yaml`, run `chezmoi apply` for the new settings to take effect:
 > ```bash
 > chezmoi apply
 > ```
