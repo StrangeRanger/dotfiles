@@ -133,6 +133,7 @@ case "$C_OS" in
             echo "${C_INFO}Installing general packages..."
             {{- range .packages.linux.general }}
             install_from_cache "{{ . }}" sudo dnf install -y "{{ . }}"
+            {{- end }}
 
             echo "${C_INFO}Installing dnf-specific packages..."
             {{- range .packages.linux.dnf }}
