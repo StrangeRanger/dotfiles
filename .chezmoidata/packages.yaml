@@ -20,6 +20,9 @@ packages:
       - "apt-listchanges"
       - "command-not-found"
       - "deborphan"
+    dnf:
+      - "duf"
+      - "trash-cli"
   macos:
     homebrew:
       formulas:
