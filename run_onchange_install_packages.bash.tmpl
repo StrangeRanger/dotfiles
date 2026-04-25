@@ -133,6 +133,10 @@ case "$C_OS" in
             echo "${C_INFO}Installing general packages..."
             {{- range .packages.linux.general }}
             install_from_cache "{{ . }}" sudo dnf install -y "{{ . }}"
+
+            echo "${C_INFO}Installing dnf-specific packages..."
+            {{- range .packages.linux.dnf }}
+            install_from_cache "{{ . }}" sudo dnf install -y "{{ . }}"
             {{- end }}
         else
             echo "${C_ERROR}No supported Linux package manager found (pacman, apt, dnf)" >&2
