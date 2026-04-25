@@ -1,6 +1,7 @@
 """"[ vim-plug Configurations ]"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Consider adding 'nvim-lspconfig' plugin.
-" TODO: Consider adding a dedicated completion plugin such as 'hrsh7th/nvim-cmp'.
+" TODO: Configure native LSP with vim.lsp.config() and vim.lsp.enable().
+" TODO: Consider 'nvim-lspconfig' only for shared server config definitions.
+" TODO: Configure built-in LSP completion with vim.lsp.completion.enable().
 " TODO: Consider migrating from vim-plug to LazyVim.
 " TODO: Review existing plugins for further configuration options and optimizations.
 
@@ -130,11 +131,8 @@ require('nvim-treesitter').install {
   'bash',
   'comment',
   'diff',
-  'lua',
   'regex',
   'python',
-  'vim',
-  'vimdoc',
   'yaml',
 }
 
@@ -164,4 +162,3 @@ EOF
 " :TSInstall       - Install treesitter parsers.
 " :TSUpdate        - Update treesitter parsers.
 " :checkhealth     - Check the health of Neovim and installed plugins.
-
