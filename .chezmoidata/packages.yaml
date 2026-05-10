@@ -16,6 +16,7 @@ packages:
       - "starship"
       - "trash-cli"
       - "tree-sitter"
+      - "tree-sitter-cli"
     apt:
       - "apt-listchanges"
       - "command-not-found"
