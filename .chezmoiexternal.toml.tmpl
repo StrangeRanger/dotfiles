@@ -41,10 +41,8 @@
 
 {{- if $features.nvim.copilot }}
 [".config/nvim/pack/github/start/copilot.vim"]
-    type = "archive"
-    url = "https://github.com/github/copilot.vim/archive/release.tar.gz"
-    exact = true
-    stripComponents = 1
+    type = "git-repo"
+    url = "https://github.com/github/copilot.vim"
     refreshPeriod = "168h"
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
