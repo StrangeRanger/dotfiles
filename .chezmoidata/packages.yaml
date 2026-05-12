@@ -15,12 +15,12 @@ packages:
       - "neovim"
       - "starship"
       - "trash-cli"
-      - "tree-sitter"
       - "tree-sitter-cli"
     apt:
       - "apt-listchanges"
       - "command-not-found"
       - "deborphan"
+      - "unattended-upgrades"
     dnf:
       - "duf"
       - "trash-cli"
