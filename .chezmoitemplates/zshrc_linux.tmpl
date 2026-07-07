@@ -75,6 +75,7 @@ zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completio
 ####[ Resource File - Functions ]###########################################################
 
 
+{{ if eq $data.packageManager "apt" -}}
 ####
 # Helper to run an apt subcommand with a consistent, colored log line.
 #
@@ -110,7 +111,7 @@ apt_update_and_cleanup() {
     _apt_exec autoremove -y || return $?
     _apt_exec autoclean     || return $?
 }
-
+{{- else if eq $data.packageManager "pacman" -}}
 ####
 # Perform the update, upgrade, and cleanup of packages managed by Pacman. Additionally, GRUB
 # configurations are updated to include snapshot changes.
@@ -125,6 +126,7 @@ pacman_update_and_cleanup() {
     echo "[INFO] Executing: $ sudo pkgfile -u"
     sudo pkgfile -u
 }
+{{- end }}
 
 
 ####[ Source Oh-My-Zsh ]####################################################################
@@ -156,8 +158,11 @@ alias format_csharp_code="find . -name '*.cs' -type f -exec clang-format --style
 alias delete_local_git_branches="git branch | grep -v 'main' | xargs git branch -D"
 
 ## Update based aliases.
+{{ if eq $data.packageManager "apt" -}}
 alias update_apt="apt_update_and_cleanup"
+{{- else if eq $data.packageManager "pacman" -}}
 alias update_pacman="pacman_update_and_cleanup"
+{{- end }}
 
 ## Systemd aliases.
 alias start_bluetooth="sudo systemctl start bluetooth.service"

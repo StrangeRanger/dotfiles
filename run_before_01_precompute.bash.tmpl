@@ -89,6 +89,21 @@ else
 fi
 
 ###
+###
+###
+
+echo "${C_INFO}Checking package manager..."
+if command -v apt >/dev/null; then
+    package_manager="apt"
+elif command -v pacman >/dev/null; then
+    package_manager="pacman"
+elif command -v dnf >/dev/null; then
+    package_manager="dnf"
+else
+    package_manager="unknown"
+fi
+
+###
 ### [ Write Precomputed Data to File ]
 ###
 
@@ -96,7 +111,8 @@ echo "${C_INFO}Writing precomputed data to file..."
 cat > "${C_CHEZMOI_DIR}/.precomputed_data.json" <<EOF
 {
     "isDeltaInstalled": $is_delta_installed,
-    "isGUIEnvironment": $is_gui_environment
+    "isGUIEnvironment": $is_gui_environment,
+    "packageManager": "$package_manager"
 }
 EOF
 
