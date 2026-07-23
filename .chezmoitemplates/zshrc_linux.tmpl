@@ -75,13 +75,14 @@ zsh_completion="${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completio
 ####[ Resource File - Functions ]###########################################################
 
 
-{{ if eq $data.packageManager "apt" -}}
+{{ if or (eq $data.packageManager "apt") (eq $data.packageManager "dnf") -}}
 ####
 # Helper to run an apt subcommand with a consistent, colored log line.
 #
 # NOTE: This function is written in zsh, rather than bash. I'm not as familiar with zsh
 #   compared to bash, so this function was written with the help of ChatGPT.
-_apt_exec() {
+_pkg_exec() {
+    local pkg=$1; shift
     local subcmd=$1; shift
     local args=("$@")
     local flags_str=""
@@ -91,10 +92,10 @@ _apt_exec() {
     fi
 
     # Header line
-    print -P "%F{blue}%B[INFO]%b%f %F{8}Executing:%f %F{8}$%f %B%F{white}sudo%f%b %B%F{white}apt%f%b %F{cyan}${subcmd}%f${flags_str}"
+    print -P "%F{blue}%B[INFO]%b%f %F{8}Executing:%f %F{8}$%f %B%F{white}sudo%f%b %B%F{white}${pkg}%f%b %F{cyan}${subcmd}%f${flags_str}"
 
     # Execute
-    if sudo apt "$subcmd" "${args[@]}"; then
+    if sudo "$pkg" "$subcmd" "${args[@]}"; then
         print -P "%F{green}[OK]%f"
     else
         local ec=$?
@@ -102,14 +103,16 @@ _apt_exec() {
         return $ec
     fi
 }
+{{- end }}
 
+{{ if eq $data.packageManager "apt" -}}
 ####
 # Perform the update, upgrade, and cleanup of packages managed by the Apt Package Manager.
 apt_update_and_cleanup() {
-    _apt_exec update        || return $?
-    _apt_exec upgrade -y    || return $?
-    _apt_exec autoremove -y || return $?
-    _apt_exec autoclean     || return $?
+    _pkg_exec apt-get update        || return $?
+    _pkg_exec apt-get upgrade -y    || return $?
+    _pkg_exec apt-get autoremove -y || return $?
+    _pkg_exec apt-get autoclean     || return $?
 }
 {{- else if eq $data.packageManager "pacman" -}}
 ####
@@ -129,10 +132,8 @@ pacman_update_and_cleanup() {
 ####
 # Perform the update, upgrade, and cleanup of packages managed by DNF.
 dnf_update_and_cleanup() {
-    echo "[INFO] Executing: $ sudo dnf update"
-    sudo dnf update
-    echo "[INFO] Executing: $ sudo dnf autoremove"
-    sudo dnf autoremove
+    _pkg_exec dnf update     || return $?
+    _pkg_exec dnf autoremove || return $?
 }
 {{- end }}
 
