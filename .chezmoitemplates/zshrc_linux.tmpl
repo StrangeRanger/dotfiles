@@ -167,7 +167,7 @@ alias delete_local_git_branches="git branch | grep -v 'main' | xargs git branch 
 alias update_apt="apt_update_and_cleanup"
 {{- else if eq $data.packageManager "pacman" -}}
 alias update_pacman="pacman_update_and_cleanup"
-{{ - else if eq $data.packageManager "dnf" -}}
+{{- else if eq $data.packageManager "dnf" -}}
 alias update_dnf="dnf_update_and_cleanup"
 {{- end }}
 
