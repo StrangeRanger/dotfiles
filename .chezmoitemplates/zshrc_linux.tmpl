@@ -113,8 +113,7 @@ apt_update_and_cleanup() {
 }
 {{- else if eq $data.packageManager "pacman" -}}
 ####
-# Perform the update, upgrade, and cleanup of packages managed by Pacman. Additionally, GRUB
-# configurations are updated to include snapshot changes.
+# Perform the update, upgrade, and cleanup of packages managed by Pacman.
 #
 # NOTE: This function may be updated in the future to coincide with the updates made to the
 #   `apt_update_and_cleanup` function.
@@ -125,6 +124,15 @@ pacman_update_and_cleanup() {
     yay && yay -Yc
     echo "[INFO] Executing: $ sudo pkgfile -u"
     sudo pkgfile -u
+}
+{{- else if eq $data.packageManager "dnf" -}}
+####
+# Perform the update, upgrade, and cleanup of packages managed by DNF.
+dnf_update_and_cleanup() {
+    echo "[INFO] Executing: $ sudo dnf update"
+    sudo dnf update
+    echo "[INFO] Executing: $ sudo dnf autoremove"
+    sudo dnf autoremove
 }
 {{- end }}
 
@@ -159,6 +167,8 @@ alias delete_local_git_branches="git branch | grep -v 'main' | xargs git branch 
 alias update_apt="apt_update_and_cleanup"
 {{- else if eq $data.packageManager "pacman" -}}
 alias update_pacman="pacman_update_and_cleanup"
+{{ - else if eq $data.packageManager "dnf" -}}
+alias update_dnf="dnf_update_and_cleanup"
 {{- end }}
 
 ## Systemd aliases.
