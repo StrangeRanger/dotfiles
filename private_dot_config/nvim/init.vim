@@ -145,7 +145,7 @@ require('lualine').setup()
 
 ----[ render-markdown.nvim Configurations ]--------------------------------------------
 
-# TODO: Consider adding additional configuration options.
+-- TODO: Consider adding additional configuration options.
 require('render-markdown').setup({})
 EOF
 
